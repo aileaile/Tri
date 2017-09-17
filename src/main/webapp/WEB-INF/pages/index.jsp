@@ -12,5 +12,18 @@
 </head>
 <body>
     inner index
+    <form action="test.do">
+    <div class="radio">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>小瓶法力药水
+        </label>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">攻击1
+        </label>
+    </div>
+    <button type="submit" class="btn btn-default">确定！</button>
+    </form>
 </body>
 </html>
