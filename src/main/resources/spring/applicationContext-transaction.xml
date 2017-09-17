@@ -34,7 +34,7 @@
 
 	<aop:config>
 		<!-- 定义切面，所有的service的所有方法 -->
-		<aop:pointcut id="txPointcut" expression="execution(* cn.wx.rent.service..*.*(..))" />
+		<aop:pointcut id="txPointcut" expression="execution(* com.LL.Triangle.service..*.*(..))" />
 		<!-- 应用事务策略到Service切面 -->
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
 	</aop:config>

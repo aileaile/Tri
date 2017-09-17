@@ -22,7 +22,7 @@
 	<!-- 定义Mapper接口扫描器 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- 扫描mapper包 -->
-		<property name="basePackage" value="cn.wx.rent.mapper"/>
+		<property name="basePackage" value="com.LL.Triangle.mapper"/>
 	</bean>
 
 </beans>

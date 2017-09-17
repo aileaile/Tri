@@ -13,7 +13,7 @@
 	<context:property-placeholder location="classpath:/db-mysql.properties"/>
 	
 	<!-- 扫描包 -->
-	<context:component-scan base-package="cn.wx.rent.service" />
+	<context:component-scan base-package="com.LL.Triangle.service" />
 
 	<!-- 数据源 -->
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
