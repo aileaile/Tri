@@ -10,12 +10,13 @@ public class IndexController {
     //转向欢迎页面
     @RequestMapping("/index")
     public String index(){
+        System.out.println("ahaha");
         return "index";
     }
 
     @RequestMapping("/test")
     @ResponseBody
     public void test(String optionsRadios){
-        System.out.print(optionsRadios);
+        System.out.println(optionsRadios);
     }
 }
