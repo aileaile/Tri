@@ -29,6 +29,15 @@ public class WebSocketTest {
         webSocketSet.add(this);     //加入set中
         addOnlineCount();           //在线数加1
         System.out.println("有新连接加入！当前在线人数为" + getOnlineCount());
+        //群发消息
+        for(WebSocketTest item: webSocketSet){
+            try {
+                item.sendMessage("一个用户加入了聊天服务器，当前在线人数为"+ getOnlineCount()+"。");
+            } catch (IOException e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
     }
 
     /**
@@ -39,6 +48,15 @@ public class WebSocketTest {
         webSocketSet.remove(this);  //从set中删除
         subOnlineCount();           //在线数减1
         System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
+        //群发消息
+        for(WebSocketTest item: webSocketSet){
+            try {
+                item.sendMessage("一个用户离开了聊天服务器，当前在线人数为"+ getOnlineCount()+"。");
+            } catch (IOException e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
     }
 
     /**

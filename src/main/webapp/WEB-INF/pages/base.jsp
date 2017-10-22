@@ -7,10 +7,16 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="ctp" value="${pageContext.request.contextPath}"/>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
-<link rel="stylesheet" href="${ctx}/staticfile/css/bootstrap.css">
-<link rel="stylesheet" href="${ctx}/staticfile/css/bootstrapValidator.min.css">
-<script src="${ctx}/staticfile/js/jquery-3.1.1.min.js"></script>
-<script src="${ctx}/staticfile/js/bootstrap.min.js"></script>
-<script src="${ctx}/staticfile/js/bootstrapValidator.min.js"></script>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+
+<link rel="stylesheet" href="<%=basePath%>/staticfile/css/bootstrap.css">
+<link rel="stylesheet" href="<%=basePath%>/staticfile/css/bootstrapValidator.min.css">
+<script src="<%=basePath%>/staticfile/js/jquery-3.1.1.min.js"></script>
+<script src="<%=basePath%>/staticfile/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>/staticfile/js/bootstrapValidator.min.js"></script>
