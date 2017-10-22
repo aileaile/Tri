@@ -1,8 +1,11 @@
 package com.LL.Triangle.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 
 @Controller
 public class IndexController {
@@ -15,8 +18,9 @@ public class IndexController {
     }
 
     @RequestMapping("/test")
-    @ResponseBody
-    public void test(String optionsRadios){
-        System.out.println(optionsRadios);
+    public String test(Model model, String userName, HttpServletRequest request) throws UnsupportedEncodingException {
+        System.out.println(userName);
+        model.addAttribute("userName",userName);
+        return "chat";
     }
 }

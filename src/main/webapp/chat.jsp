@@ -9,14 +9,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Java后端WebSocket的Tomcat实现</title>
+    <title>三信</title>
 </head>
 <body>
 Welcome<br/><input id="text" type="text"/>
 <button onclick="send()">发送消息</button>
 <hr/>
-<button onclick="closeWebSocket()">关闭WebSocket连接</button>
-<hr/>
+<%--<button onclick="closeWebSocket()">关闭WebSocket连接</button>
+<hr/>--%>
 <div id="message"></div>
 </body>
 
@@ -24,7 +24,8 @@ Welcome<br/><input id="text" type="text"/>
     var websocket = null;
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
-        websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/websocket");
+        websocket = new WebSocket("ws://localhost:8077/websocket");
+        //websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/websocket");
     }
     else {
         alert('当前浏览器 Not support websocket')
@@ -37,7 +38,7 @@ Welcome<br/><input id="text" type="text"/>
 
     //连接成功建立的回调方法
     websocket.onopen = function () {
-        setMessageInnerHTML("成功连接到聊天室。");
+        setMessageInnerHTML("成功连接到服务器。");
     }
 
     //接收到消息的回调方法

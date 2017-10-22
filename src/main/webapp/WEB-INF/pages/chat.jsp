@@ -9,14 +9,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Java后端WebSocket的Tomcat实现</title>
+    <title>聊天室</title>
+    <%@include file="base.jsp"%>
 </head>
 <body>
-Welcome<br/><input id="text" type="text"/>
-<button onclick="send()">发送消息</button>
+欢迎，${userName}<br/>
+<div class="input-append">
+    <input  id="text" type="text"/>
+    <button type="button" class="btn btn-default" onclick="send()">发送消息</button>
+</div>
 <hr/>
-<button onclick="closeWebSocket()">关闭WebSocket连接</button>
-<hr/>
+<%--<button onclick="closeWebSocket()">关闭WebSocket连接</button>
+<hr/>--%>
 <div id="message"></div>
 </body>
 
@@ -24,7 +28,7 @@ Welcome<br/><input id="text" type="text"/>
     var websocket = null;
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
-        websocket = new WebSocket("ws://localhost:8080/websocket");
+        websocket = new WebSocket("ws://localhost:8077/websocket");
     }
     else {
         alert('当前浏览器 Not support websocket')
@@ -57,7 +61,8 @@ Welcome<br/><input id="text" type="text"/>
 
     //将消息显示在网页上
     function setMessageInnerHTML(innerHTML) {
-        document.getElementById('message').innerHTML += innerHTML + '<br/>';
+        document.getElementById('message').innerHTML = innerHTML +'<br/>' +
+            document.getElementById('message').innerHTML ;
     }
 
     //关闭WebSocket连接
@@ -68,7 +73,9 @@ Welcome<br/><input id="text" type="text"/>
     //发送消息
     function send() {
         var message = document.getElementById('text').value;
-        websocket.send(message);
+        websocket.send('${userName}'+':'+message);
+        //document.getElementById('text').attribute('');
+        $('#text').val('');
     }
 </script>
 </html>
