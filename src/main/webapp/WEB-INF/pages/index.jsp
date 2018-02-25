@@ -8,12 +8,12 @@ subbut  Created by IntelliJ IDEA.
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>登陆LL的游戏室</title>
     <%@include file="base.jsp"%>
 </head>
 <body>
-    欢迎！
-        <form id="buttons" action="test.do"  method="post" class="">
+    你好，旅行者！
+        <form id="buttons" action="chat.action"  method="post" class="">
       <%--  <div class="radio">
             <label>
                 <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>小瓶法力药水

@@ -31,7 +31,7 @@
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
        /* websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/websocket");*/
-        websocket = new WebSocket("ws://localhost:8077/Triangle/websocket");
+        websocket = new WebSocket("ws://localhost:8077/Triangle/lobbyWS");
     }
     else {
         alert('当前浏览器 Not support websocket')
@@ -49,7 +49,12 @@
 
     //接收到消息的回调方法
     websocket.onmessage = function (event) {
-        setMessageInnerHTML(event.data);
+        if(event.data=="aa准备了"){
+           setMessageInnerHTML(event.data);
+            document.getElementById("gogogo").click();
+        }else{
+            setMessageInnerHTML(event.data);
+        }
     }
 
     //连接关闭的回调方法
@@ -76,7 +81,7 @@
     //发送消息
     function send() {
         var message = document.getElementById('text').value;
-        websocket.send('<%=request.getParameter("userName")%>'+':'+message);
+        websocket.send('${userName}'+':'+message);
         //document.getElementById('text').attribute('');
         $('#text').val('');
     }
