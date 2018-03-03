@@ -2,6 +2,15 @@ package com.LL.Triangle.pojo;
 
 public class User {
 
+    public User(){}
+    public User(String jSessionId){
+        this.jSessionId = jSessionId;
+    }
+    public User(String jSessionId,String userName){
+        this.jSessionId = jSessionId;
+        this.userName = userName;
+    }
+
     private String jSessionId;
     private String userName;
 
@@ -31,4 +40,8 @@ public class User {
         return jSessionId != null ? jSessionId.equals(user.jSessionId) : user.jSessionId == null;
     }
 
+    @Override
+    public int hashCode() {
+        return jSessionId != null ? jSessionId.hashCode() : 0;
+    }
 }

@@ -1,16 +1,14 @@
 package com.LL.Triangle.pojo;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 一号桌
  * 三信
  * 8个位子
  */
-public class TableOne {
+public class TriangleRoom implements IRoom {
     public static Map<Integer,User> map = new ConcurrentHashMap<>();
     static{
     }

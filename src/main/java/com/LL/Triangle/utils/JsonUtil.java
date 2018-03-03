@@ -1,6 +1,7 @@
 package com.LL.Triangle.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -8,6 +9,10 @@ import java.io.IOException;
 public class JsonUtil {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     * 对象转json字符串
+     * @Author ll
+     */
     public static String Obj2String (Object obj){
         String str = "error";
         try {
@@ -18,6 +23,10 @@ public class JsonUtil {
         return str;
     }
 
+    /**
+     * 对象转json字节
+     * @Author ll
+     */
     public static byte[] Obj2Bytes (Object obj){
         byte[] bytes = null;
         try {
@@ -28,6 +37,10 @@ public class JsonUtil {
         return bytes;
     }
 
+    /**
+     * json字符串转对象
+     * @Author ll
+     */
     public static Object String2Obj (String jsonStr,Class<?> clazz){
         Object obj = null;
         try {
@@ -38,6 +51,10 @@ public class JsonUtil {
         return obj;
     }
 
+    /**
+     * json字节转对象
+     * @Author ll
+     */
     public static Object Bytes2Obj (byte[] bytes,Class<?> clazz){
         Object obj = null;
         try {
@@ -46,6 +63,21 @@ public class JsonUtil {
             e.printStackTrace();
         }
         return obj;
+    }
+
+    /**
+     * json字符串获取指定节点字符
+     * @Author ll
+     */
+    public static String getNode(String json,String key){
+        String result = null;
+        try {
+            JsonNode jsonNode = objectMapper.readTree(json);
+            result = jsonNode.get(key).asText();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }

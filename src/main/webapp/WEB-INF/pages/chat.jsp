@@ -30,8 +30,8 @@
     var websocket = null;
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
-       /* websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/websocket");*/
-        websocket = new WebSocket("ws://localhost:8077/Triangle/websocket");
+       websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/websocket");
+       /* websocket = new WebSocket("ws://localhost:8077/Triangle/websocket");*/
     }
     else {
         alert('当前浏览器 Not support websocket')
