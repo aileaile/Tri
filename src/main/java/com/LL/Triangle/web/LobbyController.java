@@ -11,7 +11,7 @@ import java.io.UnsupportedEncodingException;
 
 @Controller
 @RequestMapping("/lobby")
-public class lobbyController {
+public class LobbyController {
 
     @RequestMapping("/sit")
     @ResponseBody
