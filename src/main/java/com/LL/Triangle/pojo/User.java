@@ -13,6 +13,15 @@ public class User {
 
     private String jSessionId;
     private String userName;
+    private boolean isReady = false;
+
+    public boolean isReady() {
+        return isReady;
+    }
+
+    public void setReady(boolean ready) {
+        isReady = ready;
+    }
 
     public String getjSessionId() {
         return jSessionId;

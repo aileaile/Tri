@@ -1,3 +1,4 @@
+/*
 package com.LL.Triangle.pojo;
 
 import java.util.List;
@@ -5,22 +6,26 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+*/
 /**
  * 一号桌
  * 三信
  * 8个位子
- */
+ *//*
+
 public class TableOne {
     public static Map<Integer,User> map = new ConcurrentHashMap<>();
     static{
     }
 
-    /**
+    */
+/**
      * 坐下
      * @param pos 目标位置
      * @param user 用户
      * @return true：成功 false：失败（不变）
-     */
+     *//*
+
     public static boolean sit(int pos,User user){
         synchronized(map){
             if(map.get(pos)!=null){
@@ -32,9 +37,11 @@ public class TableOne {
         }
     }
 
-    /**
+    */
+/**
      * 第一次入座
-     */
+     *//*
+
     public static boolean firstSit(User user){
         synchronized(map){
             for(int i = 1; i<=8 ;i++){
@@ -47,16 +54,20 @@ public class TableOne {
         }
     }
 
-    /**
+    */
+/**
      * 离开座位
-     */
+     *//*
+
     public static boolean leaveSeat(User user){
         return map.values().remove(user);
     }
 
-    /**
+    */
+/**
      * 所有位子情况
-     */
+     *//*
+
     public static String getAll(){
         StringBuilder sb = new StringBuilder("\"msgType\":\"seatStatus\",");
         synchronized(map) {
@@ -73,3 +84,4 @@ public class TableOne {
     }
 
 }
+*/

@@ -1,6 +1,5 @@
 package com.LL.Triangle.webSocket;
 
-import com.LL.Triangle.pojo.TableOne;
 import com.LL.Triangle.pojo.User;
 import com.LL.Triangle.webSocket.configure.GetHttpSessionConfigurator;
 
@@ -47,7 +46,7 @@ public class LobbyWebSocket {
     @OnClose
     public void onClose(){
         sessionMap.remove(httpSessionId);  //从set中删除
-        TableOne.leaveSeat(new User(httpSessionId));
+        //TableOne.leaveSeat(new User(httpSessionId));
         subOnlineCount();           //在线数减1
         System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
         broadcastMsg("一个用户离开了服务器，当前在线人数为"+ getOnlineCount()+"。");
