@@ -107,19 +107,20 @@ public class TriangleRoom implements IRoom {
      */
     @Override
     public String getAll(){
-        StringBuilder sb = new StringBuilder("\"msgType\":\"seatStatus\",");
+        StringBuilder sb = new StringBuilder("\"msgType\":\"seatStatus\",\"detail\":[");
         synchronized(map) {
             for (int i = 1; i <= 8; i++) {
                 if (map.get(i) != null) {
                     //sb.append("\"").append(i).append("\":\"").append(map.get(i).getUserName()).append("\",");
-                    String userJson = JsonUtil.Obj2String(map.get(i));
-                    sb.append(userJson);
+                    //2018.03.10 17:27 下面的方法调用了UserForJson的构造方法。
+                    String userJson = JsonUtil.Obj2String(new UserForJson(map.get(i),i));
+                    sb.append(userJson).append(",");
                 }
             }
             if (!"".equals(sb.toString())) {
                 sb.deleteCharAt(sb.length() - 1);
             }
-            return "{" + sb.toString() + "}";
+            return "{" + sb.toString() + "]}";
         }
     }
 

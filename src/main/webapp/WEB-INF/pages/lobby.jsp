@@ -31,16 +31,16 @@
     </div>
     <div id="mainDiv" class="hide">
         <div>
-            <input type="button" id="t1p1" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置1"/>
-            <input type="button" id="t1p2" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置2"/>
-            <input type="button" id="t1p3" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置3"/>
-            <input type="button" id="t1p4" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置4"/>
+            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置1"/>
+            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置2"/>
+            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置3"/>
+            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置4"/>
         </div>
         <div>
-            <input type="button" id="t1p5" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置5"/>
-            <input type="button" id="t1p6" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置6"/>
-            <input type="button" id="t1p7" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置7"/>
-            <input type="button" id="t1p8" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置8"/>
+            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置5"/>
+            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置6"/>
+            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置7"/>
+            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置8"/>
         </div>
         <div>----------</div>
         <div><button onclick="ready()" class="btn btn-default">准备</button>
@@ -59,7 +59,7 @@
     $(function (){
         if(1<=parseInt(roomNum)&&parseInt(roomNum)<=10){
             $('#mainDiv').attr("class","show");
-            var pre = 't'+ roomNum + 'p';
+            var pre = 't'+ roomNum + 's';
             for(var i = 1;i<=seats.length;i++){
                 seats[i-1].id =  pre + i;
                 seats[i-1].className = "seatsShow btn btn-default btn-lg";
@@ -78,10 +78,10 @@
 
     function sit(obj){
         var id = obj.id;
-        var table = id.slice(1,2);
+        var room = id.slice(1,2);
         var seat = id.slice(3,4);
         var uName = "${userName}";
-        var jsonStr = {"table":table,"seat":seat,"userName":uName};//object类型
+        var jsonStr = {"room":room,"seat":seat,"userName":uName};//object类型
         var msg = JSON.stringify(jsonStr);//string类型
         jQuery.ajax({
             type: "post",

@@ -53,14 +53,15 @@
 
  //接收到消息的回调方法
  websocket.onmessage = function (MessageEvent ) {
+     debugger
      var json = $.parseJSON(MessageEvent.data);
      if(json.msgType=="seatStatus"){
-        for(var i=1;i<=8;i++){
-            if(json[i]!=null) {
-                document.getElementById("t1p" + i).value = json[i];
-            }else{
-                document.getElementById("t1p" + i).value = "位置"+i;
-            }
+         var users = json.detail;
+         for(var i=1;i<=8;i++){
+             document.getElementById("t1s" + i).value = "位置"+i;
+         }
+         for(var i = 0;i<users.length;i++){
+             document.getElementById("t1s" + users[i].position).value = users[i].userName;
          }
      }else if(json.msgType=="broadcast"){
          setMessageInnerHTML(json.msg);
