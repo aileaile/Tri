@@ -8,7 +8,7 @@ public interface IUserService {
      * @param user
      * @return
      */
-    boolean userSignIn(User user);
+    void userSignIn(User user);
 
     /**
      * 用户登出

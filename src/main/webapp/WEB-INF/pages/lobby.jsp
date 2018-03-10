@@ -9,29 +9,67 @@
 <html>
 <head>
     <title></title>
+    <style>
+        .hide{
+            display: none !important;
+        }
+        .seatsHide{
+            display: none !important;
+        }
+        .seatsShow{
+
+        }
+        .show{
+
+        }
+    </style>
 </head>
 <body>
 <%@include file="title.jsp"%>
-    <div>
-        <input type="button" id="t1p1" onclick="sit(this)" class="btn btn-default btn-lg" value="位置1"/>
-        <input type="button" id="t1p2" onclick="sit(this)" class="btn btn-default btn-lg" value="位置2"/>
-        <input type="button" id="t1p3" onclick="sit(this)" class="btn btn-default btn-lg" value="位置3"/>
-        <input type="button" id="t1p4" onclick="sit(this)" class="btn btn-default btn-lg" value="位置4"/>
+    <div class="">
+        当前房间号：${roomNum}
     </div>
-    <div>
-        <input type="button" id="t1p5" onclick="sit(this)" class="btn btn-default btn-lg" value="位置5"/>
-        <input type="button" id="t1p6" onclick="sit(this)" class="btn btn-default btn-lg" value="位置6"/>
-        <input type="button" id="t1p7" onclick="sit(this)" class="btn btn-default btn-lg" value="位置7"/>
-        <input type="button" id="t1p8" onclick="sit(this)" class="btn btn-default btn-lg" value="位置8"/>
+    <div id="mainDiv" class="hide">
+        <div>
+            <input type="button" id="t1p1" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置1"/>
+            <input type="button" id="t1p2" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置2"/>
+            <input type="button" id="t1p3" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置3"/>
+            <input type="button" id="t1p4" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置4"/>
+        </div>
+        <div>
+            <input type="button" id="t1p5" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置5"/>
+            <input type="button" id="t1p6" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置6"/>
+            <input type="button" id="t1p7" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置7"/>
+            <input type="button" id="t1p8" onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置8"/>
+        </div>
+        <div>----------</div>
+        <div><button onclick="ready()" class="btn btn-default">准备</button>
+            <button class="btn btn-default">取消准备</button>
+            <a id="gogogo" href="game">开始</a>
+        </div>
     </div>
-    <div>----------</div>
-    <div><button onclick="ready()" class="btn btn-default">准备</button>
-        <button class="btn btn-default">取消准备</button>
-        <a id="gogogo" href="game">开始</a>
+    <div id="errTips" class="hide">
+        这个房间并不存在。
     </div>
 <%@include file="lobbyChat.jsp"%>
 </body>
 <script>
+    var roomNum = ${roomNum};
+    var seats = $('.seatsHide');
+    $(function (){
+        if(1<=parseInt(roomNum)&&parseInt(roomNum)<=10){
+            $('#mainDiv').attr("class","show");
+            var pre = 't'+ roomNum + 'p';
+            for(var i = 1;i<=seats.length;i++){
+                seats[i-1].id =  pre + i;
+                seats[i-1].className = "seatsShow btn btn-default btn-lg";
+            }
+        }else{
+            $('#errTips').attr("class","show");
+        }
+    });
+
+
     //发送消息
     function ready() {
         var message = 'sys|ready|'+'${userName}';

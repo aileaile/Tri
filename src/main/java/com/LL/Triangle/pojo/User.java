@@ -14,6 +14,15 @@ public class User {
     private String jSessionId;
     private String userName;
     private boolean isReady = false;
+    private long lastCheckTime = System.currentTimeMillis();
+
+    public long getLastCheckTime() {
+        return lastCheckTime;
+    }
+
+    public void setLastCheckTime(long lastCheckTime) {
+        this.lastCheckTime = lastCheckTime;
+    }
 
     public boolean isReady() {
         return isReady;

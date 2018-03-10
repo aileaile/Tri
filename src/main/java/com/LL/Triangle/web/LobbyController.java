@@ -1,5 +1,6 @@
 package com.LL.Triangle.web;
 
+import com.LL.Triangle.pojo.TriangleRoom;
 import com.LL.Triangle.pojo.User;
 import com.LL.Triangle.utils.JsonUtil;
 import com.LL.Triangle.webSocket.LobbyWebSocket;
@@ -21,10 +22,10 @@ public class LobbyController {
         User user = new User(session.getId(), JsonUtil.getNode(data, "userName"));
         if (table == 1)
         {
-            boolean flg = TableOne.sit(seat, user);
+           /* boolean flg = TriangleRoom.sit(seat, user);
             if (flg) {
                 LobbyWebSocket.broadcastMsg(TableOne.getAll());
-            }
+            }*/
         }
         return "";
     }

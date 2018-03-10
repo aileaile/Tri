@@ -14,18 +14,15 @@ subbut  Created by IntelliJ IDEA.
 <body>
     你好，旅行者！
         <form id="buttons" action="chat.action"  method="post" class="">
-      <%--  <div class="radio">
-            <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>小瓶法力药水
-            </label>
-        </div>
-        <div class="radio">
-            <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">攻击1
-            </label>
-        </div>--%>
-          请输入用户名: <input name="userName" value="" id="222"/>
-            <button id="subbut" type="submit" class="btn btn-default" onclick="sub()">确定！</button>
+            <ui>
+                请输入用户名：<input name="userName" value="" id="userName" size="5%"/>
+            </ui>
+            <ui>
+                请输入房间号(1-10)：<input name="roomNum" value="1" id="roomNum" size="5%"/>
+            </ui>
+            <div>
+                <button id="subbut" type="submit" class="btn btn-default" onclick="sub()">确定！</button>
+            </div>
         </form>
 </body>
 

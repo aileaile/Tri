@@ -15,4 +15,11 @@
 欢迎，${userName}<br/>
 <hr/>
 </body>
+<script>
+    var un = '${userName}';
+    if (un=='') {
+        location.href = "index.action";
+    }
+
+</script>
 </html>
