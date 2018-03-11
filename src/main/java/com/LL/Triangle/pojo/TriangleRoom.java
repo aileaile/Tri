@@ -107,7 +107,7 @@ public class TriangleRoom implements IRoom {
      */
     @Override
     public String getAll(){
-        StringBuilder sb = new StringBuilder("\"msgType\":\"seatStatus\",\"detail\":[");
+        StringBuilder sb = new StringBuilder("\"msgType\":\"seatStatus\",\"roomNum\":\""+roomNum+"\",\"detail\":[");
         synchronized(map) {
             for (int i = 1; i <= 8; i++) {
                 if (map.get(i) != null) {
@@ -122,6 +122,16 @@ public class TriangleRoom implements IRoom {
             }
             return "{" + sb.toString() + "]}";
         }
+    }
+
+    @Override
+    public User findUserBySessionId(String sessionId){
+        for(User user : map.values()){
+            if(user.getjSessionId().equals(sessionId)){
+                return user;
+            }
+        }
+        return null;
     }
 
 

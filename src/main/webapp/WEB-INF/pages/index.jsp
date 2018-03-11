@@ -28,7 +28,6 @@ subbut  Created by IntelliJ IDEA.
 
 <script type="text/javascript">
     function sub(){
-        submit;
     }
 </script>
 </html>

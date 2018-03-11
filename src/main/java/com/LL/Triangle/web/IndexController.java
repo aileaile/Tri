@@ -1,7 +1,11 @@
 package com.LL.Triangle.web;
 
+import com.LL.Triangle.pojo.IRoom;
+import com.LL.Triangle.pojo.Lobby;
 import com.LL.Triangle.pojo.User;
 import com.LL.Triangle.service.IUserService;
+import com.LL.Triangle.utils.LobbyUtil;
+import com.LL.Triangle.webSocket.LobbyWebSocket;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,7 +40,8 @@ public class IndexController {
         }
         request.getSession().setAttribute("userName",harmoniousName);
         //储存在线用户信息
-        iUserService.userSignIn(new User(request.getSession().getId(),harmoniousName));
+        User user = new User(request.getSession().getId(), harmoniousName);
+        iUserService.userSignIn(user);
         //2.处理房间号
         request.getSession().setAttribute("roomNum",roomNum);
         return "lobby";

@@ -13,9 +13,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Service
+@Service("iUserService")
 public class UserServiceImpl implements IUserService {
     private Map<String,User> userMap = new ConcurrentHashMap<>();
+
+    /**
+     * 查找用户
+     * @param httpSessionId
+     */
+    @Override
+    public User findUser(String httpSessionId){
+        return this.userMap.get(httpSessionId);
+    }
 
     /**
      * 用户登录
@@ -39,7 +48,12 @@ public class UserServiceImpl implements IUserService {
         //3.删除房间roomMap中的user,遍历Lobby中所有的Room，i:房间号
         for(int i=1;i<= Lobby.roomMap.size();i++){
             if(Lobby.roomMap.get(i).getMap().size()>0){
-                Lobby.roomMap.get(i).getMap().remove(sessionId);
+                boolean isLeave = Lobby.roomMap.get(i).leaveSeat(new User(sessionId));
+                if(isLeave){
+                    String json = Lobby.roomMap.get(i).getAll();
+                    LobbyWebSocket.sendRoom(i,json);
+                    break;
+                }
             }
         }
     }
@@ -48,6 +62,7 @@ public class UserServiceImpl implements IUserService {
      * 定期检查断线用户
      */
     @Scheduled(cron = "*/30 * * * * ?")
+    @Override
     public void cleanOfflineUser(){
         Iterator<Map.Entry<String,User>> it = userMap.entrySet().iterator();
         long curTime = System.currentTimeMillis();
@@ -75,7 +90,10 @@ public class UserServiceImpl implements IUserService {
             }
         }
         if(roomForUpdateList.size()>0){
-            //TODO 更新(webSocket 发送）
+            for(Integer i:roomForUpdateList){
+                String json = Lobby.roomMap.get(i).getAll();
+                LobbyWebSocket.sendRoom(i,json);
+            }
         }
     }
     /**
@@ -86,5 +104,14 @@ public class UserServiceImpl implements IUserService {
     @Override
     public boolean checkLogin(String sessionId) {
         return false;
+    }
+
+    /**
+     * 更新心跳
+     * @param sessionId
+     */
+    @Override
+    public void updateHeartBeat(String sessionId) {
+        userMap.get(sessionId).setLastCheckTime(System.currentTimeMillis());
     }
 }

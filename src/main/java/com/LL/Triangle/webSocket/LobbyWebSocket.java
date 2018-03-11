@@ -1,13 +1,19 @@
 package com.LL.Triangle.webSocket;
 
+import com.LL.Triangle.pojo.Lobby;
 import com.LL.Triangle.pojo.User;
+import com.LL.Triangle.service.IUserService;
+import com.LL.Triangle.utils.ContextUtil;
 import com.LL.Triangle.webSocket.configure.GetHttpSessionConfigurator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -36,7 +42,6 @@ public class LobbyWebSocket {
         this.httpSessionId=httpSession.getId();
         sessionMap.put(httpSessionId,session);     //加入map中
         addOnlineCount();           //在线数加1
-        System.out.println("有新连接加入！当前在线人数为" + getOnlineCount());
         broadcastMsg("一个用户加入了服务器，当前在线人数为"+ getOnlineCount()+"。");
     }
 
@@ -45,12 +50,12 @@ public class LobbyWebSocket {
      */
     @OnClose
     public void onClose(){
-        sessionMap.remove(httpSessionId);  //从set中删除
+        //sessionMap.remove(httpSessionId);  //从set中删除
+        IUserService iUserService = (IUserService)ContextUtil.getBean("iUserService");
+        iUserService.userSignOut(httpSessionId);
         //TableOne.leaveSeat(new User(httpSessionId));
         subOnlineCount();           //在线数减1
-        System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
         broadcastMsg("一个用户离开了服务器，当前在线人数为"+ getOnlineCount()+"。");
-
     }
 
     /**
@@ -60,12 +65,7 @@ public class LobbyWebSocket {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        String[] msgs = message.split("\\|");
-        if(msgs[0].trim().equals("sys")){
-            broadcastMsg(msgs[2]+"准备了");
-        }else{
-            broadcastMsg(message);
-        }
+        broadcastMsg(message);
     }
 
     /**
@@ -112,7 +112,10 @@ public class LobbyWebSocket {
         for(String httpSessionId: sessionMap.keySet()){
             try {
                 String msgJson = "{\"msgType\":\"broadcast\",\"msg\":\""+message+"\"}";
-                sessionMap.get(httpSessionId).getBasicRemote().sendText(msgJson);
+                Session session = sessionMap.get(httpSessionId);
+                if (session != null) {
+                    session.getBasicRemote().sendText(msgJson);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -125,8 +128,29 @@ public class LobbyWebSocket {
     public static void sendAll(String message){
         for(String httpSessionId: sessionMap.keySet()){
             try {
-                sessionMap.get(httpSessionId).getBasicRemote().sendText(message);
+                Session session = sessionMap.get(httpSessionId);
+                if (session != null) {
+                    session.getBasicRemote().sendText(message);
+                }
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 给某个房间中的人发消息
+     * @return
+     */
+    public static void sendRoom(Integer roomNum,String message){
+        Collection<User> target = Lobby.roomMap.get(roomNum).getMap().values();
+        for(User user : target) {
+            try {
+                Session session = sessionMap.get(user.getjSessionId());
+                if(session !=null) {
+                    session.getBasicRemote().sendText(message);
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -17,10 +17,18 @@
             display: none !important;
         }
         .seatsShow{
-
+            width:90px !important;
+            background-image:url(../../ready.jpg) !important;
         }
         .show{
 
+        }
+        .readyHide {
+            display: none !important;
+        }
+        .readyShow{
+            width:90px !important;
+            height:30px ;
         }
     </style>
 </head>
@@ -37,15 +45,28 @@
             <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置4"/>
         </div>
         <div>
+            <input type="button" class="readyHide" />
+            <input type="button" class="readyHide" />
+            <input type="button" class="readyHide" />
+            <input type="button" class="readyHide" />
+        </div>
+        <div><br/>
+        </div>
+        <div>
             <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置5"/>
             <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置6"/>
             <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置7"/>
             <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置8"/>
         </div>
+        <div>
+            <input type="button" class="readyHide" />
+            <input type="button" class="readyHide" />
+            <input type="button" class="readyHide" />
+            <input type="button" class="readyHide" />
+        </div>
         <div>----------</div>
         <div><button onclick="ready()" class="btn btn-default">准备</button>
-            <button class="btn btn-default">取消准备</button>
-            <a id="gogogo" href="game">开始</a>
+            <button onclick="unReady()"class="btn btn-default">取消准备</button>
         </div>
     </div>
     <div id="errTips" class="hide">
@@ -54,28 +75,69 @@
 <%@include file="lobbyChat.jsp"%>
 </body>
 <script>
-    var roomNum = ${roomNum};
+    var roomNum = '${roomNum}';
     var seats = $('.seatsHide');
+    var readys =  $('.readyHide');
     $(function (){
-        if(1<=parseInt(roomNum)&&parseInt(roomNum)<=10){
-            $('#mainDiv').attr("class","show");
-            var pre = 't'+ roomNum + 's';
-            for(var i = 1;i<=seats.length;i++){
-                seats[i-1].id =  pre + i;
-                seats[i-1].className = "seatsShow btn btn-default btn-lg";
+        if(!isNaN(roomNum)){
+            if (1 <= parseInt(roomNum,10) && parseInt(roomNum,10) <= 10) {
+                $('#mainDiv').attr("class", "show");
+                var pre = 't' + roomNum + 's';
+                for (var i = 1; i <= seats.length; i++) {
+                    seats[i - 1].id = pre + i;
+                    seats[i - 1].className = "seatsShow btn btn-default btn-lg";
+                    readys[i - 1].className = "readyShow btn btn-default "
+                }
+                setTimeout("firstSit()",100);
+            }else {
+                $('#errTips').attr("class", "show");
             }
-        }else{
-            $('#errTips').attr("class","show");
+        } else {
+            $('#errTips').attr("class", "show");
         }
     });
 
 
-    //发送消息
+    //准备
     function ready() {
-        var message = 'sys|ready|'+'${userName}';
-        websocket.send(message);
+        jQuery.ajax({
+            type: "post",
+            url: "<%=request.getContextPath()%>/lobby/ready",
+            data : {roomNum:roomNum},
+            success: function(obj){
+            }
+        });
     }
 
+    //准备
+    function unReady() {
+        jQuery.ajax({
+            type: "post",
+            url: "<%=request.getContextPath()%>/lobby/unReady",
+            data : {roomNum:roomNum},
+            success: function(obj){
+            }
+        });
+    }
+
+    //第一次进入房间
+    function firstSit(){
+        jQuery.ajax({
+            type: "post",
+            url: "<%=request.getContextPath()%>/lobby/firstSit",
+            data : {roomNum:roomNum},
+            success: function(obj){
+                if(!obj){
+                    document.getElementById('message').innerHTML = '当前房间已满。' +'<br/>' +
+                        document.getElementById('message').innerHTML ;
+                }
+            },
+            error: function(){
+            }
+        });
+    }
+
+    //[坐下]
     function sit(obj){
         var id = obj.id;
         var room = id.slice(1,2);
@@ -85,7 +147,7 @@
         var msg = JSON.stringify(jsonStr);//string类型
         jQuery.ajax({
             type: "post",
-            url: "/Triangle/lobby/sit",
+            url: "<%=request.getContextPath()%>/lobby/sit",
             /*
                 预期[服务器]返回的数据类型 xml html script  json jsonp  text ;
                 如果不指定，则服务器根据返回数据类型自行判断
@@ -106,9 +168,6 @@
             }
         });
     }
-
-
-
 </script>
 
 </html>

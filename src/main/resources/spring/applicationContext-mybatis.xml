@@ -7,18 +7,14 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
-	<!-- 构造SqlSessionFactory -->
+	<!-- 构造SqlSessionFactory
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<!-- 定义数据源 -->
 		<property name="dataSource" ref="dataSource"/>
-		<!-- mybatis-config.xml -->
 		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
-		<!-- 别名包 -->
 		<property name="typeAliasesPackage" value="cn.wx.rent.pojo"/>
-		<!-- mapper.xml -->
-		<property name="mapperLocations" value="classpath:mybatis/mappers/*.xml"/> 
-	</bean>
-	
+		<property name="mapperLocations" value="classpath:mybatis/mappers/*.xml"/>
+	</bean>-->
+
 	<!-- 定义Mapper接口扫描器 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- 扫描mapper包 -->

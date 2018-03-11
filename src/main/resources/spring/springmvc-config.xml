@@ -27,4 +27,5 @@
 	</bean>
 	<!-- 处理静态资源被“/”所拦截的问题 -->
 	<mvc:default-servlet-handler />
+
 </beans>
