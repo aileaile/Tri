@@ -88,7 +88,7 @@
                     seats[i - 1].className = "seatsShow btn btn-default btn-lg";
                     readys[i - 1].className = "readyShow btn btn-default "
                 }
-                setTimeout("firstSit()",100);
+                setTimeout("firstSit()",50);
             }else {
                 $('#errTips').attr("class", "show");
             }

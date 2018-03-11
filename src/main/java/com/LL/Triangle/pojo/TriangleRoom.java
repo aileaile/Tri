@@ -134,5 +134,15 @@ public class TriangleRoom implements IRoom {
         return null;
     }
 
+    @Override
+    public boolean checkIfAllReady(){
+        for(User user : map.values()){
+            if(!user.isReady()){
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 }

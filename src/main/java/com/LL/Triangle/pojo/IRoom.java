@@ -11,4 +11,6 @@ public interface IRoom{
     Map<Integer, User> getMap();
 
     User findUserBySessionId(String sessionId);
+
+    boolean checkIfAllReady();
 }

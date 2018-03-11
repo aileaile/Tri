@@ -79,6 +79,16 @@ public class LobbyController {
                     IRoom room = Lobby.getInstance().getRoom(roomNumInt);
                     room.findUserBySessionId(sessionId).setReady(true);
                     LobbyWebSocket.sendRoom(roomNumInt, room.getAll());
+                    if(room.checkIfAllReady()){
+                        if(room.getMap().size()>=2){
+                            //游戏即将开始
+                            LobbyWebSocket.broadcastRoom(roomNumInt,"所有玩家都已准备，游戏将在3秒内开始。");
+                            LobbyWebSocket.sendRoom(roomNumInt,"{\"msgType\":\"gameStart\"");
+                        }else {
+                            //人数不足
+                            LobbyWebSocket.broadcastRoom(roomNumInt,"当前人数不足，无法开始游戏。");
+                        }
+                    }
                 }
             }
         }catch (Exception e){

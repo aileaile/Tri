@@ -139,7 +139,7 @@ public class LobbyWebSocket {
     }
 
     /**
-     * 给某个房间中的人发消息
+     * 给某个房间中的所有人发消息
      * @return
      */
     public static void sendRoom(Integer roomNum,String message){
@@ -149,6 +149,25 @@ public class LobbyWebSocket {
                 Session session = sessionMap.get(user.getjSessionId());
                 if(session !=null) {
                     session.getBasicRemote().sendText(message);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 给某个房间中的所有人广播
+     * @return
+     */
+    public static void broadcastRoom(Integer roomNum,String message){
+        Collection<User> target = Lobby.roomMap.get(roomNum).getMap().values();
+        String msgJson = "{\"msgType\":\"broadcast\",\"msg\":\""+message+"\"}";
+        for(User user : target) {
+            try {
+                Session session = sessionMap.get(user.getjSessionId());
+                if(session !=null) {
+                    session.getBasicRemote().sendText(msgJson);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
