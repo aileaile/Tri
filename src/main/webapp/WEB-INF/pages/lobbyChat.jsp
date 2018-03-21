@@ -35,10 +35,10 @@
         //局域网
        //websocket = new WebSocket("ws://192.168.1.8:8077/Triangle/lobbyWS");
         //本机
-        websocket = new WebSocket("ws://localhost:8077/Triangle/lobbyWS");
+       websocket = new WebSocket("ws://localhost:8077/Triangle/lobbyWS");
  }
  else {
-     alert('当前浏览器版本太低，不支持WebSocket，请使用新版本浏览器。')
+     alert('当前浏览器版本太低，无法加载页面，请使用新版本或其他浏览器。')
  }
 
  //连接发生错误的回调方法

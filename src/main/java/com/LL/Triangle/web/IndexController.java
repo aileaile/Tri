@@ -35,7 +35,7 @@ public class IndexController {
         //1.规范用户名称，储存用户登录信息
         if(userName!=null) {
             //皮一下很开心
-            harmoniousName = userName.trim().replace(" ", "")
+            harmoniousName = userName.trim().replace(" ", "").replace("ll", "I am ")
                     .replace("LL", "I am ").replace("刘良王", "赵赫王");
         }
         request.getSession().setAttribute("userName",harmoniousName);

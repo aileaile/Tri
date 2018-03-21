@@ -18,7 +18,6 @@
         }
         .seatsShow{
             width:90px !important;
-            background-image:url(../../ready.jpg) !important;
         }
         .show{
 
@@ -75,6 +74,13 @@
 <%@include file="lobbyChat.jsp"%>
 </body>
 <script>
+
+    //防止页面后退
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, document.URL);
+    });
+
     var roomNum = '${roomNum}';
     var seats = $('.seatsHide');
     var readys =  $('.readyHide');
@@ -168,6 +174,7 @@
             }
         });
     }
+
 </script>
 
 </html>
