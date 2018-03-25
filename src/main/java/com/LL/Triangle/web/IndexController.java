@@ -1,12 +1,9 @@
 package com.LL.Triangle.web;
 
-import com.LL.Triangle.pojo.IRoom;
-import com.LL.Triangle.pojo.Lobby;
 import com.LL.Triangle.pojo.User;
 import com.LL.Triangle.service.IUserService;
-import com.LL.Triangle.utils.LobbyUtil;
-import com.LL.Triangle.webSocket.LobbyWebSocket;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +20,8 @@ public class IndexController {
 
     @Autowired
     private IUserService iUserService;
+
+    private Logger logger = LoggerFactory.getLogger(IndexController.class);
     //转向欢迎页面
     @RequestMapping("/index")
     public String index(){
@@ -31,13 +30,16 @@ public class IndexController {
 
     @RequestMapping("/chat")
     public String chat(String userName,String roomNum,HttpServletRequest request) throws UnsupportedEncodingException {
-        String harmoniousName = null;
+        String harmoniousName;
         //1.规范用户名称，储存用户登录信息
-        if(userName!=null) {
+        if(userName!=null&&!"".equals(userName)) {
             //皮一下很开心
             harmoniousName = userName.trim().replace(" ", "").replace("ll", "I am ")
                     .replace("LL", "I am ").replace("刘良王", "赵赫王");
+        }else{
+            return "index";
         }
+        logger.info("{}登陆了。",userName);
         request.getSession().setAttribute("userName",harmoniousName);
         //储存在线用户信息
         User user = new User(request.getSession().getId(), harmoniousName);
@@ -52,6 +54,6 @@ public class IndexController {
         //model.addAttribute("userName",userName);
         //equest.getSession(true);
         session.setAttribute("userName",session.getAttribute("userName"));
-        return "game";
+        return "insideDiv-game";
     }
 }

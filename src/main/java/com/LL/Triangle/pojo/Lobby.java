@@ -1,12 +1,17 @@
 package com.LL.Triangle.pojo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Lobby {
     private static Lobby singleton = new Lobby();
+    private Logger logger = LoggerFactory.getLogger(Lobby.class);
     public static Map<Integer,IRoom> roomMap ;
     private Lobby(){
+        logger.info("Lobby.class init");
         if(roomMap==null){
             roomMap = new ConcurrentHashMap<>();
         }

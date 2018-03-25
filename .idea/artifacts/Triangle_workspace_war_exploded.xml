@@ -23,7 +23,6 @@
           <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.2.8" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis-spring:1.2.2" />
           <element id="library" level="project" name="Maven: com.github.miemiedev:mybatis-paginator:1.2.15" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.2" />
           <element id="library" level="project" name="Maven: com.github.abel533:mapper:2.3.2" />
           <element id="library" level="project" name="Maven: javax.persistence:persistence-api:1.0" />
           <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.9.2" />
@@ -44,8 +43,11 @@
           <element id="library" level="project" name="Maven: com.google.inject.extensions:guice-multibindings:3.0" />
           <element id="library" level="project" name="Maven: com.github.pagehelper:pagehelper:3.4.2" />
           <element id="library" level="project" name="Maven: com.github.jsqlparser:jsqlparser:0.9.1" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.6.4" />
-          <element id="library" level="project" name="Maven: log4j:log4j:1.2.16" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.5" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.5" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-web:2.5" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.13" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-slf4j-impl:2.5" />
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.9" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.0.1" />

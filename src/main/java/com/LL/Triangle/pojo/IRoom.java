@@ -8,9 +8,8 @@ public interface IRoom{
     boolean leaveSeat(User user);
     String getAll();
     boolean isFull();
+    void setInProcess(boolean b);
     Map<Integer, User> getMap();
-
     User findUserBySessionId(String sessionId);
-
     boolean checkIfAllReady();
 }

@@ -33,49 +33,17 @@
 </head>
 <body>
 <%@include file="title.jsp"%>
-    <div class="">
-        当前房间号：${roomNum}
+    <div id="allSeats">
+        <%@include file="insideDiv-allSeats.jsp"%>
     </div>
-    <div id="mainDiv" class="hide">
-        <div>
-            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置1"/>
-            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置2"/>
-            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置3"/>
-            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置4"/>
-        </div>
-        <div>
-            <input type="button" class="readyHide" />
-            <input type="button" class="readyHide" />
-            <input type="button" class="readyHide" />
-            <input type="button" class="readyHide" />
-        </div>
-        <div><br/>
-        </div>
-        <div>
-            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置5"/>
-            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置6"/>
-            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置7"/>
-            <input type="button"  onclick="sit(this)" class="seatsHide btn btn-default btn-lg" value="位置8"/>
-        </div>
-        <div>
-            <input type="button" class="readyHide" />
-            <input type="button" class="readyHide" />
-            <input type="button" class="readyHide" />
-            <input type="button" class="readyHide" />
-        </div>
-        <div>----------</div>
-        <div><button onclick="ready()" class="btn btn-default">准备</button>
-            <button onclick="unReady()"class="btn btn-default">取消准备</button>
-        </div>
+    <div id="game" class="hide">
+        <%@include file="insideDiv-game.jsp"%>
     </div>
-    <div id="errTips" class="hide">
-        这个房间并不存在。
-    </div>
-<%@include file="lobbyChat.jsp"%>
+<%@include file="lobbyWebSocket.jsp"%>
 </body>
 <script>
 
-    //防止页面后退
+    //防止页面后退(safari无效)
     history.pushState(null, null, document.URL);
     window.addEventListener('popstate', function () {
         history.pushState(null, null, document.URL);

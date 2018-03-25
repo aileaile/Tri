@@ -50,7 +50,7 @@
  websocket.onopen = function () {
      debugger
      setMessageInnerHTML("成功连接至服务器。");
-     //每9000ms发送心跳一次，牛逼的写法，防止js进程非空闲状态导致时间间隔不准确
+     //每9000ms发送心跳一次，这种写法防止js进程非空闲状态导致时间间隔不准确
      sendHeartBeat();
  }
  function sendHeartBeat(){
@@ -65,6 +65,7 @@
              document.getElementById('message').innerHTML =
                          '断开了与服务器的连接，请重新打开网页。' +'<br/>' +
                          document.getElementById('message').innerHTML ;
+             top.location.href = "index.action";
          }
      });
      setTimeout("sendHeartBeat()",9000);
@@ -93,7 +94,30 @@
          }
      }else if(json.msgType=="broadcast"){
          setMessageInnerHTML(json.msg);
+     }else if(json.msgType=="gameStart"){
+         gameStart();
      }
+ }
+
+ function gameStart(){
+     debugger;
+    $('#allSeats').attr("class","hide");
+    $('#game').attr("class","show");
+     for(var i = 0;i<8;i++){
+         document.getElementsByTagName('tbody')[0].innerHTML =
+             document.getElementsByTagName('tbody')[0].innerHTML +
+             '<tr>\n' +
+             '            <tr>\n' +
+             '                <td colspan="2" width="30%">玩家'+i+'</td>\n' +
+             '                <td rowspan="2"></td>\n' +
+             '            </tr>\n' +
+             '            <tr>\n' +
+             '                <td width="15%">生命：</td>\n' +
+             '                <td width="15%">法力：</td>\n' +
+             '            </tr>\n' +
+     '        </tr>'
+     }
+
  }
 
  //连接关闭的回调方法
