@@ -31,11 +31,11 @@
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
         //线上
-        //websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/lobbyWS");
+        websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/lobbyWS");
         //局域网
        //websocket = new WebSocket("ws://192.168.1.8:8077/Triangle/lobbyWS");
         //本机
-       websocket = new WebSocket("ws://localhost:8077/Triangle/lobbyWS");
+       //websocket = new WebSocket("ws://localhost:8077/Triangle/lobbyWS");
  }
  else {
      alert('当前浏览器版本太低，无法加载页面，请使用新版本或其他浏览器。')

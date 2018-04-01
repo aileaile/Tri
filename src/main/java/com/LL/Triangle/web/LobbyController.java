@@ -3,6 +3,7 @@ package com.LL.Triangle.web;
 import com.LL.Triangle.pojo.IRoom;
 import com.LL.Triangle.pojo.Lobby;
 import com.LL.Triangle.pojo.User;
+import com.LL.Triangle.service.ITriangleGameService;
 import com.LL.Triangle.service.IUserService;
 import com.LL.Triangle.utils.JsonUtil;
 import com.LL.Triangle.utils.LobbyUtil;
@@ -23,7 +24,11 @@ public class LobbyController {
     @Autowired
     private IUserService iUserService;
 
+    @Autowired
+    private ITriangleGameService iTriangleGameService;
+
     private static final Logger logger = LoggerFactory.getLogger(LobbyController.class);
+
 
     @RequestMapping("/sit")
     @ResponseBody
@@ -89,6 +94,7 @@ public class LobbyController {
                             room.setInProcess(true);
                             LobbyWebSocket.broadcastRoom(roomNumInt, "所有玩家都已准备，游戏将在3秒内开始。");
                             LobbyWebSocket.sendRoom(roomNumInt, "{\"msgType\":\"gameStart\"}");
+                            iTriangleGameService.gameStart(roomNumInt);
                         } else {
                             //人数不足
                             LobbyWebSocket.broadcastRoom(roomNumInt, "当前人数不足，无法开始游戏。");
