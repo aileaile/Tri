@@ -1,5 +1,6 @@
 package com.LL.Triangle.pojo;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IRoom{
@@ -12,4 +13,8 @@ public interface IRoom{
     Map<Integer, User> getMap();
     User findUserBySessionId(String sessionId);
     boolean checkIfAllReady();
+
+    Map<String,TriangleGamePlayer> gameStartAndGetMap();
+
+    List<String> getUndecidedList();
 }

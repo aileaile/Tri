@@ -2,6 +2,8 @@ package com.LL.Triangle.pojo;
 
 import com.LL.Triangle.utils.JsonUtil;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,7 +18,9 @@ public class TriangleRoom implements IRoom {
     }
     private int roomNum;
     private boolean inProcess = false;
-    public Map<Integer,User> map = new ConcurrentHashMap<>();
+    private Map<Integer,User> map = new ConcurrentHashMap<>();
+    private Map<String,TriangleGamePlayer> playerMap = new ConcurrentHashMap<>();
+    private List<String> undecidedList = new LinkedList<>();
     static{
     }
 
@@ -144,5 +148,34 @@ public class TriangleRoom implements IRoom {
         return true;
     }
 
+    /**
+     * 开始游戏初始化游戏玩家名单
+     * @return
+     */
+    @Override
+    public Map<String,TriangleGamePlayer> gameStartAndGetMap(){
+        if(!inProcess){
+            inProcess=true;
+            TriangleGamePlayer tPlayer = null;
+            for(User u :map.values()){
+                tPlayer = new TriangleGamePlayer();
+                tPlayer.setjSessionId(u.getjSessionId());
+                tPlayer.setUserName(u.getUserName());
+                tPlayer.reset();
+                playerMap.put(u.getjSessionId(),tPlayer);
+                undecidedList.add(u.getjSessionId());
+            }
+        }
+        return playerMap;
+    }
+
+    /**
+     * 获取未决定名单，需要在gameStartAndGetMap方法后执行
+     * @return
+     */
+    @Override
+    public List<String> getUndecidedList(){
+        return undecidedList;
+    }
 
 }

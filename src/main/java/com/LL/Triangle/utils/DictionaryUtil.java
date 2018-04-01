@@ -3,7 +3,7 @@ package com.LL.Triangle.utils;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Dictionary {
+public class DictionaryUtil {
     public final static String RECOVER_MANA = "recoverMana";
     public final static String ATTACK_1 = "attack1";
     public final static String ATTACK_2 = "attack2";

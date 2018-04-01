@@ -1,6 +1,6 @@
 package com.LL.Triangle.pojo;
 
-import com.LL.Triangle.utils.Dictionary;
+import com.LL.Triangle.utils.DictionaryUtil;
 
 public class TriangleGamePlayer extends User{
     private Integer tablePos;
@@ -34,27 +34,27 @@ public class TriangleGamePlayer extends User{
         Object[] dec = new Object[8];
         //dec[] 0攻击威力 1攻击值 2防御值 3法力防御 4无敌 5恢复法力 6法力攻击 7法力抢夺
         switch(decision){
-            case Dictionary.RECOVER_MANA:
+            case DictionaryUtil.RECOVER_MANA:
                 dec[0]=0; dec[1]=0;dec[2]=0;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
-            case Dictionary.ATTACK_1:
+            case DictionaryUtil.ATTACK_1:
                 dec[0]=1; dec[1]=1;dec[2]=1;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
-            case Dictionary.ATTACK_2:
+            case DictionaryUtil.ATTACK_2:
                 dec[0]=2; dec[1]=2;dec[2]=2;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
-            case Dictionary.ATTACK_3:
+            case DictionaryUtil.ATTACK_3:
                 dec[0]=1; dec[1]=3;dec[2]=3;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
-            case Dictionary.ATTACK_4:
+            case DictionaryUtil.ATTACK_4:
                 dec[0]=1; dec[1]=4;dec[2]=4;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
-            case Dictionary.DEFENCE_1:
+            case DictionaryUtil.DEFENCE_1:
                 dec[0]=0; dec[1]=0;dec[2]=1;dec[3]=true;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
-            case Dictionary.DEFENCE_2:
+            case DictionaryUtil.DEFENCE_2:
                 dec[0]=0; dec[1]=0;dec[2]=2;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
-            case Dictionary.DEFENCE_3:
+            case DictionaryUtil.DEFENCE_3:
                 dec[0]=0; dec[1]=0;dec[2]=3;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
-            case Dictionary.MANA_ATTACK:
+            case DictionaryUtil.MANA_ATTACK:
                 dec[0]=0; dec[1]=0;dec[2]=0;dec[3]=true;dec[4]=true;dec[5]=true;dec[6]=true;dec[7]=false;break;
-            case Dictionary.MANA_GRAB:
+            case DictionaryUtil.MANA_GRAB:
                 dec[0]=0; dec[1]=0;dec[2]=0;dec[3]=true;dec[4]=true;dec[5]=true;dec[6]=false;dec[7]=true;break;
-            case Dictionary.BE_INVINCIBLE:
+            case DictionaryUtil.BE_INVINCIBLE:
                 dec[0]=0; dec[1]=0;dec[2]=0;dec[3]=true;dec[4]=true;dec[5]=true;dec[6]=false;dec[7]=false;break;
         }
         setAttributeValue(dec);
@@ -80,7 +80,7 @@ public class TriangleGamePlayer extends User{
      * return false：玩家法力不足，死掉。
      */
     public boolean useMana(){
-        Integer cost = Dictionary.manaUseMap.get(decision);
+        Integer cost = DictionaryUtil.manaUseMap.get(decision);
         mana -= cost;
         if(mana<0){
             healthPoint = -1;
