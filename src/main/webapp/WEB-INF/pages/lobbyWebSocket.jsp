@@ -31,11 +31,11 @@
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
         //线上
-        websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/lobbyWS");
+        //websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/lobbyWS");
         //局域网
        //websocket = new WebSocket("ws://192.168.1.8:8077/Triangle/lobbyWS");
         //本机
-       //websocket = new WebSocket("ws://localhost:8077/Triangle/lobbyWS");
+       websocket = new WebSocket("ws://localhost:8077/Triangle/lobbyWS");
  }
  else {
      alert('当前浏览器版本太低，无法加载页面，请使用新版本或其他浏览器。')
@@ -48,7 +48,6 @@
 
  //连接成功建立的回调方法
  websocket.onopen = function () {
-     debugger
      setMessageInnerHTML("成功连接至服务器。");
      //每9000ms发送心跳一次，这种写法防止js进程非空闲状态导致时间间隔不准确
      sendHeartBeat();
@@ -82,7 +81,6 @@
                  document.getElementById(pre + i).value = "位置" + i;
                  readys[i -1 ].value="";
              }
-             debugger;
              for (var i = 0; i < users.length; i++) {
                  document.getElementById(pre + users[i].position).value = users[i].userName;
                  if(users[i].ready){
@@ -96,28 +94,51 @@
          setMessageInnerHTML(json.msg);
      }else if(json.msgType=="gameStart"){
          gameStart();
+     }else if(json.msgType=="playerStatus"){
+         printPlayerInfo(json.playerStatus);
+     }else if(json.msgType=="gameStatus"){
+         updateGameInfo(json.gameStatus);
      }
  }
 
- function gameStart(){
-     debugger;
-    $('#allSeats').attr("class","hide");
-    $('#game').attr("class","show");
-     for(var i = 0;i<8;i++){
+function updateGameInfo(playerStatus) {
+    document.getElementsByTagName('tbody')[0].innerHTML = "";
+    for(var i = 0;i<playerStatus.length;i++){
+        document.getElementsByTagName('tbody')[0].innerHTML =
+            document.getElementsByTagName('tbody')[0].innerHTML +
+            '<tr>\n' +
+            '            <tr>\n' +
+            '                <td colspan="2" width="30%">'+playerStatus[i].userName+'</td>\n' +
+            '                <td rowspan="2" class="decision">'+playerStatus[i].decision+'</td>\n' +
+            '            </tr>\n' +
+            '            <tr>\n' +
+            '                <td width="15%">生命：'+playerStatus[i].healthPoint+'</td>\n' +
+            '                <td width="15%">法力：'+playerStatus[i].mana+'</td>\n' +
+            '            </tr>\n' +
+            '</tr>'
+    }
+}
+
+ function printPlayerInfo(playerStatus) {
+     for(var i = 0;i<playerStatus.length;i++){
          document.getElementsByTagName('tbody')[0].innerHTML =
              document.getElementsByTagName('tbody')[0].innerHTML +
              '<tr>\n' +
              '            <tr>\n' +
-             '                <td colspan="2" width="30%">玩家'+i+'</td>\n' +
-             '                <td rowspan="2"></td>\n' +
+             '                <td colspan="2" width="30%">'+playerStatus[i].userName+'</td>\n' +
+             '                <td rowspan="2" class="decision" id="playerName"+playerStatus[i].userName>'+playerStatus[i].decision+'</td>\n' +
              '            </tr>\n' +
              '            <tr>\n' +
-             '                <td width="15%">生命：</td>\n' +
-             '                <td width="15%">法力：</td>\n' +
+             '                <td width="15%">生命：'+playerStatus[i].healthPoint+'</td>\n' +
+             '                <td width="15%">法力：'+playerStatus[i].mana+'</td>\n' +
              '            </tr>\n' +
-     '        </tr>'
+             '</tr>'
      }
+ }
 
+ function gameStart(){
+    $('#allSeats').attr("class","hide");
+    $('#game').attr("class","show");
  }
 
  //连接关闭的回调方法

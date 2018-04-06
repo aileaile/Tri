@@ -6,4 +6,8 @@ public interface ITriangleGameService {
      * @param roomNum
      */
     void gameStart(Integer roomNum);
+
+    String getPlayerMapJson(Integer roomNumInt);
+
+    void makeDcs(int roomNum, String httpSessionId, String dcs);
 }

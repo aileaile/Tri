@@ -1,6 +1,8 @@
 package com.LL.Triangle.pojo;
 
 import com.LL.Triangle.utils.JsonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,11 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class TriangleRoom implements IRoom {
 
+    private Logger logger = LoggerFactory.getLogger(TriangleRoom.class);
     public TriangleRoom(int roomNum){
         this.roomNum = roomNum;
     }
     private int roomNum;
     private boolean inProcess = false;
+    //map:key-座位号 value-User
     private Map<Integer,User> map = new ConcurrentHashMap<>();
     private Map<String,TriangleGamePlayer> playerMap = new ConcurrentHashMap<>();
     private List<String> undecidedList = new LinkedList<>();
@@ -56,12 +60,16 @@ public class TriangleRoom implements IRoom {
      */
     @Override
     public boolean sit(Integer pos,User user){
+        logger.debug("sit[start]:roomNum-{},position-{},username-{}",roomNum,pos,user.getUserName());
         synchronized(map){
             if(map.get(pos)!=null){
+                logger.debug("sit[end] FAIL:the target position is occupied!The user on the seat is {},jSessionId is {}"
+                                                        ,map.get(pos).getUserName(),map.get(pos).getjSessionId());
                 return false;
             }
             leaveSeat(user);
             map.put(pos,user);
+            logger.debug("sit[end] SUCCESS");
             return true;
         }
     }
@@ -71,29 +79,35 @@ public class TriangleRoom implements IRoom {
      */
     @Override
     public boolean firstSit(User user){
+        logger.debug("firstSit[start]:roomNum-{},username-{}",roomNum,user.getUserName());
         synchronized(map){
             for(int i = 1; i<=8 ;i++){
                 if(map.get(i)==null){
                     map.put(i,user);
+                    logger.debug("firstSit[end] SUCCESS:seat number-{}",i);
                     return true;
                 }
             }
+            logger.debug("firstSit[end] FAIL:The room is full(roomNum-{}).",roomNum);
             return false;
         }
     }
 
     /**
      * 检查房间是否已满
-     * @return
+     * @return true:房间座位已满  false：未满
      */
     @Override
     public boolean isFull() {
+        logger.debug("isFull[start]");
         synchronized(map){
             for(int i = 1; i<=8 ;i++){
                 if(map.get(i)==null){
+                    logger.debug("isFull[end]:Room is full,room number-{}",roomNum);
                     return true;
                 }
             }
+            logger.debug("isFull[end]:Room is not full,room number-{}",roomNum);
             return false;
         }
     }
@@ -103,6 +117,7 @@ public class TriangleRoom implements IRoom {
      */
     @Override
     public boolean leaveSeat(User user){
+        logger.debug("user leaves original seat.(username:{})",user.getUserName());
         return map.values().remove(user);
     }
 
@@ -111,6 +126,7 @@ public class TriangleRoom implements IRoom {
      */
     @Override
     public String getAll(){
+        logger.debug("getAll[start]");
         StringBuilder sb = new StringBuilder("\"msgType\":\"seatStatus\",\"roomNum\":\""+roomNum+"\",\"detail\":[");
         synchronized(map) {
             for (int i = 1; i <= 8; i++) {
@@ -124,6 +140,7 @@ public class TriangleRoom implements IRoom {
             if (!"".equals(sb.toString())) {
                 sb.deleteCharAt(sb.length() - 1);
             }
+            logger.debug("getAll[end]");
             return "{" + sb.toString() + "]}";
         }
     }
@@ -140,11 +157,14 @@ public class TriangleRoom implements IRoom {
 
     @Override
     public boolean checkIfAllReady(){
+        logger.debug("checkIfAllReady[start]");
         for(User user : map.values()){
             if(!user.isReady()){
+                logger.debug("checkIfAllReady[end]:not all ready");
                 return false;
             }
         }
+        logger.debug("checkIfAllReady[end]:all is ready");
         return true;
     }
 
@@ -154,9 +174,11 @@ public class TriangleRoom implements IRoom {
      */
     @Override
     public Map<String,TriangleGamePlayer> gameStartAndGetMap(){
-        if(!inProcess){
+        logger.debug("gameStartAndGetMap[start]");
+        //if(!inProcess){
             inProcess=true;
             TriangleGamePlayer tPlayer = null;
+            logger.info("game starting:roomNum-{},now setting the playerMap.Players number is {}",roomNum,map.size());
             for(User u :map.values()){
                 tPlayer = new TriangleGamePlayer();
                 tPlayer.setjSessionId(u.getjSessionId());
@@ -164,8 +186,19 @@ public class TriangleRoom implements IRoom {
                 tPlayer.reset();
                 playerMap.put(u.getjSessionId(),tPlayer);
                 undecidedList.add(u.getjSessionId());
+                logger.info("player name-{},sessionId-{},done.",u.getUserName(),u.getjSessionId());
             }
-        }
+        //}
+        logger.debug("gameStartAndGetMap[end]");
+        return playerMap;
+    }
+
+    /**
+     * 获取玩家名单
+     * @return playerMap
+     */
+    @Override
+    public Map<String,TriangleGamePlayer> getPlayerMap(){
         return playerMap;
     }
 

@@ -29,6 +29,12 @@
             width:90px !important;
             height:30px ;
         }
+        .decision{
+            vertical-align:middle !important;
+        }
+        .decisionBtn{
+            width:80px !important;
+        }
     </style>
 </head>
 <body>

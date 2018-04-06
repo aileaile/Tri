@@ -27,15 +27,18 @@ public class LobbyController {
     @Autowired
     private ITriangleGameService iTriangleGameService;
 
-    private static final Logger logger = LoggerFactory.getLogger(LobbyController.class);
+    private Logger logger = LoggerFactory.getLogger(LobbyController.class);
 
 
     @RequestMapping("/sit")
     @ResponseBody
     public void sit(String data,HttpSession session)  {
+        logger.debug("sit[start]");
         int roomNum = Integer.parseInt(JsonUtil.getNode(data, "room"));
         int seat = Integer.parseInt(JsonUtil.getNode(data, "seat"));
         //User user = new User(session.getId(), JsonUtil.getNode(data, "userName"));
+        logger.debug("user sit: roomNum-{},seat-{},sessionId-{}",roomNum,seat,session.getId());
+        logger.debug("now start checking the roomNum(roomNum must between 1 and 10)");
         if (LobbyUtil.checkRoomNum(roomNum)){
             Lobby lobby = Lobby.getInstance();
             IRoom room = lobby.getRoom(roomNum);
@@ -45,11 +48,13 @@ public class LobbyController {
                 LobbyWebSocket.sendRoom(roomNum,room.getAll());
             }
         }
+        logger.debug("sit[end]");
     }
 
     @RequestMapping("/firstSit")
     @ResponseBody
     public boolean firstSit(String roomNum,HttpSession session)  {
+        logger.info("firstSit[start]");
         User user = null;
         try {
             Integer roomNumInt = Integer.valueOf(roomNum);
@@ -57,7 +62,9 @@ public class LobbyController {
             if (user != null) {
                 IRoom room = Lobby.getInstance().getRoom(roomNumInt);
                 boolean firstSit = room.firstSit(user);
+                logger.info("firstSit[end]:SUCCESS");
                 if(firstSit){
+                    logger.debug("firstSit successfully, now sending room json data to browser");
                     LobbyWebSocket.sendRoom(roomNumInt,room.getAll());
                     return true;
                 }
@@ -65,6 +72,7 @@ public class LobbyController {
         }catch (Exception e){
             logger.error("初次Sit时发生错误，UserName：{}，详情：",user.getUserName(),e);
         }
+        logger.info("firstSit[end]:FAIL");
         return false;
     }
 
@@ -95,6 +103,10 @@ public class LobbyController {
                             LobbyWebSocket.broadcastRoom(roomNumInt, "所有玩家都已准备，游戏将在3秒内开始。");
                             LobbyWebSocket.sendRoom(roomNumInt, "{\"msgType\":\"gameStart\"}");
                             iTriangleGameService.gameStart(roomNumInt);
+                            String playMapJson = iTriangleGameService.getPlayerMapJson(roomNumInt);
+                            logger.debug("{}",playMapJson);
+                            logger.debug("{\"msgType\":\"playerStatus\",\"playerStatus\":["+playMapJson+"]}");
+                            LobbyWebSocket.sendRoom(roomNumInt, "{\"msgType\":\"playerStatus\",\"playerStatus\":["+playMapJson+"]}");
                         } else {
                             //人数不足
                             LobbyWebSocket.broadcastRoom(roomNumInt, "当前人数不足，无法开始游戏。");

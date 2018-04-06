@@ -3,6 +3,8 @@ package com.LL.Triangle.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -18,7 +20,8 @@ public class JsonUtil {
         try {
             str = objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            Logger logger = LoggerFactory.getLogger(JsonUtil.class);
+            logger.error("ERR:",e);
         }
         return str;
     }
@@ -32,7 +35,8 @@ public class JsonUtil {
         try {
             bytes = objectMapper.writeValueAsBytes(obj);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            Logger logger = LoggerFactory.getLogger(JsonUtil.class);
+            logger.error("ERR:",e);
         }
         return bytes;
     }
@@ -46,7 +50,8 @@ public class JsonUtil {
         try {
             obj = objectMapper.readValue(jsonStr, clazz);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger logger = LoggerFactory.getLogger(JsonUtil.class);
+            logger.error("ERR:",e);
         }
         return obj;
     }
@@ -60,7 +65,8 @@ public class JsonUtil {
         try {
             obj = objectMapper.readValue(bytes, clazz);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger logger = LoggerFactory.getLogger(JsonUtil.class);
+            logger.error("ERR:",e);
         }
         return obj;
     }
@@ -75,7 +81,8 @@ public class JsonUtil {
             JsonNode jsonNode = objectMapper.readTree(json);
             result = jsonNode.get(key).asText();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger logger = LoggerFactory.getLogger(JsonUtil.class);
+            logger.error("ERR:",e);
         }
         return result;
     }

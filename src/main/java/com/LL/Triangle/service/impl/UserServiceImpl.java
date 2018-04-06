@@ -35,7 +35,9 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public void userSignIn(User user) {
+        logger.debug("userSignIn[start]");
         userMap.put(user.getjSessionId(),user);
+        logger.debug("userSignIn[end]");
     }
 
     /**

@@ -16,5 +16,7 @@ public interface IRoom{
 
     Map<String,TriangleGamePlayer> gameStartAndGetMap();
 
+    Map<String,TriangleGamePlayer> getPlayerMap();
+
     List<String> getUndecidedList();
 }

@@ -37,25 +37,25 @@ public class TriangleGamePlayer extends User{
             case DictionaryUtil.RECOVER_MANA:
                 dec[0]=0; dec[1]=0;dec[2]=0;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
             case DictionaryUtil.ATTACK_1:
-                dec[0]=1; dec[1]=1;dec[2]=1;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
+                dec[0]=1; dec[1]=1;dec[2]=0;dec[3]=false;dec[4]=false;dec[5]=false;dec[6]=false;dec[7]=false;break;
             case DictionaryUtil.ATTACK_2:
-                dec[0]=2; dec[1]=2;dec[2]=2;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
+                dec[0]=2; dec[1]=2;dec[2]=0;dec[3]=false;dec[4]=false;dec[5]=false;dec[6]=false;dec[7]=false;break;
             case DictionaryUtil.ATTACK_3:
-                dec[0]=1; dec[1]=3;dec[2]=3;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
+                dec[0]=1; dec[1]=3;dec[2]=0;dec[3]=false;dec[4]=false;dec[5]=false;dec[6]=false;dec[7]=false;break;
             case DictionaryUtil.ATTACK_4:
-                dec[0]=1; dec[1]=4;dec[2]=4;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
+                dec[0]=1; dec[1]=4;dec[2]=0;dec[3]=false;dec[4]=false;dec[5]=false;dec[6]=false;dec[7]=false;break;
             case DictionaryUtil.DEFENCE_1:
-                dec[0]=0; dec[1]=0;dec[2]=1;dec[3]=true;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
+                dec[0]=0; dec[1]=0;dec[2]=1;dec[3]=true;dec[4]=false;dec[5]=false;dec[6]=false;dec[7]=false;break;
             case DictionaryUtil.DEFENCE_2:
-                dec[0]=0; dec[1]=0;dec[2]=2;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
+                dec[0]=0; dec[1]=0;dec[2]=2;dec[3]=false;dec[4]=false;dec[5]=false;dec[6]=false;dec[7]=false;break;
             case DictionaryUtil.DEFENCE_3:
-                dec[0]=0; dec[1]=0;dec[2]=3;dec[3]=false;dec[4]=false;dec[5]=true;dec[6]=false;dec[7]=false;break;
+                dec[0]=0; dec[1]=0;dec[2]=3;dec[3]=false;dec[4]=false;dec[5]=false;dec[6]=false;dec[7]=false;break;
             case DictionaryUtil.MANA_ATTACK:
-                dec[0]=0; dec[1]=0;dec[2]=0;dec[3]=true;dec[4]=true;dec[5]=true;dec[6]=true;dec[7]=false;break;
+                dec[0]=0; dec[1]=0;dec[2]=0;dec[3]=true;dec[4]=true;dec[5]=false;dec[6]=true;dec[7]=false;break;
             case DictionaryUtil.MANA_GRAB:
-                dec[0]=0; dec[1]=0;dec[2]=0;dec[3]=true;dec[4]=true;dec[5]=true;dec[6]=false;dec[7]=true;break;
+                dec[0]=0; dec[1]=0;dec[2]=0;dec[3]=true;dec[4]=true;dec[5]=false;dec[6]=false;dec[7]=true;break;
             case DictionaryUtil.BE_INVINCIBLE:
-                dec[0]=0; dec[1]=0;dec[2]=0;dec[3]=true;dec[4]=true;dec[5]=true;dec[6]=false;dec[7]=false;break;
+                dec[0]=0; dec[1]=0;dec[2]=0;dec[3]=true;dec[4]=true;dec[5]=false;dec[6]=false;dec[7]=false;break;
         }
         setAttributeValue(dec);
     }
@@ -118,11 +118,27 @@ public class TriangleGamePlayer extends User{
         if(invincible){return true;}
         if(manaAtk&&!manaDefence){mana=0;}
         if(atkNum==4){
-            if(defenceNum!=atkNum){healthPoint -= atkPow;}else{mana+=atkNum;}
+            if(this.atkNum<atkNum&&defenceNum!=1){healthPoint -= atkPow;}
         }else{
-            if(defenceNum!=1){healthPoint -= atkPow;}
+            if(defenceNum==atkNum){mana+=atkNum;}
+            if(this.atkNum<atkNum&&defenceNum!=atkNum){healthPoint -= atkPow;}
         }
         return healthPoint>0;
     }
 
+    public boolean isAlive(){
+        return healthPoint > 0;
+    }
+
+    public int getHealthPoint() {
+        return healthPoint;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public String getDecision() {
+        return decision;
+    }
 }

@@ -28,7 +28,7 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping("/chat")
+    @RequestMapping("/main")
     public String chat(String userName,String roomNum,HttpServletRequest request) throws UnsupportedEncodingException {
         String harmoniousName;
         //1.规范用户名称，储存用户登录信息
@@ -39,7 +39,7 @@ public class IndexController {
         }else{
             return "index";
         }
-        logger.info("{}登陆了。",userName);
+        logger.info("{} log in,roomNum is {}.",userName,roomNum);
         request.getSession().setAttribute("userName",harmoniousName);
         //储存在线用户信息
         User user = new User(request.getSession().getId(), harmoniousName);
