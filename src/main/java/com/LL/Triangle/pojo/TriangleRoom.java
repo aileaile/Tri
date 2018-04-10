@@ -176,6 +176,13 @@ public class TriangleRoom implements IRoom {
     public Map<String,TriangleGamePlayer> gameStartAndGetMap(){
         logger.debug("gameStartAndGetMap[start]");
         //if(!inProcess){
+        //先清理
+        playerMap.clear();
+        undecidedList.clear();
+        for(User user:map.values()){
+            user.setReady(false);
+        }
+        //再开始
             inProcess=true;
             TriangleGamePlayer tPlayer = null;
             logger.info("game starting:roomNum-{},now setting the playerMap.Players number is {}",roomNum,map.size());

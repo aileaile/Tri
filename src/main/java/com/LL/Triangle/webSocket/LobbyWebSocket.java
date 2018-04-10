@@ -41,8 +41,8 @@ public class LobbyWebSocket {
         HttpSession httpSession= (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         this.httpSessionId=httpSession.getId();
         sessionMap.put(httpSessionId,session);     //加入map中
-        addOnlineCount();           //在线数加1
-        broadcastMsg("一个用户加入了服务器，当前在线人数为"+ getOnlineCount()+"。");
+        //addOnlineCount();           //在线数加1
+        //broadcastMsg("一个用户加入了服务器，当前在线人数为"+ getOnlineCount()+"。");
     }
 
     /**
@@ -54,8 +54,8 @@ public class LobbyWebSocket {
         IUserService iUserService = (IUserService)ContextUtil.getBean("iUserService");
         iUserService.userSignOut(httpSessionId);
         //TableOne.leaveSeat(new User(httpSessionId));
-        subOnlineCount();           //在线数减1
-        broadcastMsg("一个用户离开了服务器，当前在线人数为"+ getOnlineCount()+"。");
+        //subOnlineCount();           //在线数减1
+        //broadcastMsg("一个用户离开了服务器，当前在线人数为"+ getOnlineCount()+"。");
     }
 
     /**

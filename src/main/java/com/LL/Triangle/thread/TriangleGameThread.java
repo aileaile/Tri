@@ -42,7 +42,7 @@ public class TriangleGameThread implements Runnable {
                     logger.debug("Checking if all players have committed..RoomNum-{}",roomNum);
                     if(undecidedList.size()==0){break;}
                 } catch (InterruptedException e) {
-                    logger.debug("循环检测是否所有玩家都提交时出现InterruptedException：",e);
+                    logger.warn("循环检测是否所有玩家都提交时出现InterruptedException：",e);
                 }
             }
             logger.debug("Counting is over.RoomNum-{}",roomNum);
@@ -119,6 +119,9 @@ public class TriangleGameThread implements Runnable {
         }else{
             LobbyWebSocket.broadcastRoom(roomNum, "超过最大回合数，平局。");
         }
+        //清除playerMap数据。
+        iTriangleGameService.cleanAfterGame(roomNum);
+        LobbyWebSocket.sendRoom(roomNum,"{\"msgType\":\"gameOver\"}");
     }
 
 }

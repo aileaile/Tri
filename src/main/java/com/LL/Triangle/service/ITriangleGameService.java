@@ -10,4 +10,6 @@ public interface ITriangleGameService {
     String getPlayerMapJson(Integer roomNumInt);
 
     void makeDcs(int roomNum, String httpSessionId, String dcs);
+
+    void cleanAfterGame(Integer roomNum);
 }

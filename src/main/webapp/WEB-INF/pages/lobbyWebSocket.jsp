@@ -18,7 +18,7 @@
 <div class="input-append">
     <input  id="text" type="text"/>
     <button type="button" class="btn btn-default" onclick="send()">发送消息</button>
-    <button type="button" class="btn btn-default" onclick="lookup()">查看在线人员</button>
+   <%-- <button type="button" class="btn btn-default" onclick="lookup()">查看在线人员</button>--%>
 </div>
 
 <%--<button onclick="closeWebSocket()">关闭WebSocket连接</button>
@@ -93,15 +93,23 @@
      }else if(json.msgType=="broadcast"){
          setMessageInnerHTML(json.msg);
      }else if(json.msgType=="gameStart"){
-         gameStart();
+         showGamePanelAndHideSeats();
      }else if(json.msgType=="playerStatus"){
+         StartCounting();
          printPlayerInfo(json.playerStatus);
      }else if(json.msgType=="gameStatus"){
+         StartCounting();
          updateGameInfo(json.gameStatus);
+     }else if(json.msgType=="gameOver"){
+         showBackward();
      }
  }
+function showBackward() {
+    document.getElementById('backwardArea').innerText="游戏结束，单击返回以进行下一局游戏。";
+}
 
 function updateGameInfo(playerStatus) {
+    document.getElementById('panel-dcs-value').innerText = "";
     document.getElementsByTagName('tbody')[0].innerHTML = "";
     for(var i = 0;i<playerStatus.length;i++){
         document.getElementsByTagName('tbody')[0].innerHTML =
@@ -136,7 +144,7 @@ function updateGameInfo(playerStatus) {
      }
  }
 
- function gameStart(){
+ function showGamePanelAndHideSeats(){
     $('#allSeats').attr("class","hide");
     $('#game').attr("class","show");
  }

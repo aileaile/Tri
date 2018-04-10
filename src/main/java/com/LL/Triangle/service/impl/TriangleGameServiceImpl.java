@@ -1,16 +1,15 @@
 package com.LL.Triangle.service.impl;
 
-import com.LL.Triangle.pojo.IRoom;
-import com.LL.Triangle.pojo.Lobby;
-import com.LL.Triangle.pojo.TriangleGamePlayer;
-import com.LL.Triangle.pojo.TriangleGamePlayerForJson;
+import com.LL.Triangle.pojo.*;
 import com.LL.Triangle.service.ITriangleGameService;
 import com.LL.Triangle.thread.TriangleGameThread;
 import com.LL.Triangle.utils.JsonUtil;
+import com.LL.Triangle.webSocket.LobbyWebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +22,16 @@ public class TriangleGameServiceImpl implements ITriangleGameService {
     @Override
     public void gameStart(Integer roomNum) {
         logger.info("gameStart,roomNum is {}",roomNum);
+        //1--
         IRoom gameRoom = Lobby.getInstance().getRoom(roomNum);
+            gameRoom.setInProcess(true);
+        //2--
         Map<String, TriangleGamePlayer> playerMap = gameRoom.gameStartAndGetMap();
         List<String> aliveList = new LinkedList<>();
         for(TriangleGamePlayer player:playerMap.values()){
             aliveList.add(player.getjSessionId());
         }
+        //3--
         logger.info("game data init over.Now init a thread.");
         TriangleGameThread gameThread = new TriangleGameThread();
         gameThread.initData(aliveList,gameRoom.getUndecidedList(),playerMap,roomNum);
@@ -71,6 +74,18 @@ public class TriangleGameServiceImpl implements ITriangleGameService {
         player.makeDecision(dcs);
         room.getUndecidedList().remove(httpSessionId);
         logger.debug("makeDcs[over]");
+    }
+
+    @Override
+    public void cleanAfterGame(Integer roomNum) {
+        logger.debug("cleanAfterGame[start]");
+        //1.清理playerMap
+        IRoom room = Lobby.getInstance().getRoom(roomNum);
+        room.getPlayerMap().clear();
+        //2.设置room的InProcess状态
+        room.setInProcess(false);
+        LobbyWebSocket.sendRoom(roomNum,room.getAll());
+        logger.debug("cleanAfterGame[end]");
     }
 
 }

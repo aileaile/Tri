@@ -13,19 +13,22 @@ subbut  Created by IntelliJ IDEA.
 </head>
 <body>
     你好，旅行者！
+    <br><br><br>
         <form id="buttons" action="main"  method="post" class="">
-            <ui>
-                请输入用户名：<input name="userName" value="" id="userName" size="5%"/>
+            <ui line-height="100px">
+                请输入用户名：<input name="userName" value="" id="userName" size="7%" />
             </ui>
+            <br><br>
             <ui>
-                请输入房间号(1-10)：<input name="roomNum" value="1" id="roomNum" size="5%"/>
+                请输入房间号：<input name="roomNum" value="1" id="roomNum" size="7%"/>(1-10)
             </ui>
+            <br><br>
             <div>
                 <button id="subbut" type="submit" class="btn btn-default" onclick="sub()">确定！</button>
             </div>
         </form>
     <br/>
-    <p style="text-align: left;font-size:13px;font-family: Consolas;color:darkgray">[beta 0.0.1]</p>
+    <p style="text-align: left;font-size:13px;font-family: Consolas;color:darkgray">[beta 0.0.2]</p>
 </body>
 
 <script type="text/javascript">
