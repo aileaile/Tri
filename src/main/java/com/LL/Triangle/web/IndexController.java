@@ -28,19 +28,36 @@ public class IndexController {
         return "index";
     }
 
+    //转向欢迎页面
+    @RequestMapping("/offLine")
+    public String offLine(HttpServletRequest request){
+        request.setAttribute("errMsg","Opps，断线了。");
+        return "index";
+    }
+
+
+
     @RequestMapping("/main")
-    public String chat(String userName,String roomNum,HttpServletRequest request) throws UnsupportedEncodingException {
+    public String main(String userName,String roomNum,HttpServletRequest request) throws UnsupportedEncodingException {
         String harmoniousName;
         //1.规范用户名称，储存用户登录信息
-        if(userName!=null&&!"".equals(userName)) {
-            //皮一下很开心
+        if("，。？".equals(userName)){
+            harmoniousName = "LL";
+        }else if(userName!=null&&!"".equals(userName)) {
+            //和谐
             harmoniousName = userName.trim().replace(" ", "").replace("ll", "I am ")
                     .replace("LL", "I am ").replace("刘良王", "赵赫王");
         }else{
+            //request.setAttribute("errMsg","请重新登录。");
             return "index";
         }
         logger.info("{} log in,roomNum is {}.",userName,roomNum);
         request.getSession().setAttribute("userName",harmoniousName);
+        //检查用户名是否重复
+        if(!iUserService.checkLogin(harmoniousName)){
+            request.setAttribute("errMsg","这个名字已经被占用了，再选一个吧。");
+            return "index";
+        }
         //储存在线用户信息
         User user = new User(request.getSession().getId(), harmoniousName);
         iUserService.userSignIn(user);
@@ -56,4 +73,6 @@ public class IndexController {
         session.setAttribute("userName",session.getAttribute("userName"));
         return "insideDiv-game";
     }
+
+
 }

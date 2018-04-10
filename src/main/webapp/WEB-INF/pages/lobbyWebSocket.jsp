@@ -31,11 +31,11 @@
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
         //线上
-        //websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/lobbyWS");
+        websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/lobbyWS");
         //局域网
        //websocket = new WebSocket("ws://192.168.1.8:8077/Triangle/lobbyWS");
         //本机
-       websocket = new WebSocket("ws://localhost:8077/Triangle/lobbyWS");
+       //websocket = new WebSocket("ws://localhost:8077/Triangle/lobbyWS");
  }
  else {
      alert('当前浏览器版本太低，无法加载页面，请使用新版本或其他浏览器。')
@@ -105,19 +105,23 @@
      }
  }
 function showBackward() {
-    document.getElementById('backwardArea').innerText="游戏结束，单击返回以进行下一局游戏。";
+    document.getElementById('backwardArea').innerText="游戏结束，单击此处返回房间。";
 }
 
 function updateGameInfo(playerStatus) {
     document.getElementById('panel-dcs-value').innerText = "";
     document.getElementsByTagName('tbody')[0].innerHTML = "";
     for(var i = 0;i<playerStatus.length;i++){
+        if(playerStatus[i].userName=='${userName}'){
+            document.getElementById('panel-hp-value').innerText = playerStatus[i].healthPoint;
+            document.getElementById('panel-mp-value').innerText = playerStatus[i].mana;
+        }
         document.getElementsByTagName('tbody')[0].innerHTML =
             document.getElementsByTagName('tbody')[0].innerHTML +
             '<tr>\n' +
             '            <tr>\n' +
             '                <td colspan="2" width="30%">'+playerStatus[i].userName+'</td>\n' +
-            '                <td rowspan="2" class="decision">'+playerStatus[i].decision+'</td>\n' +
+            '                <td rowspan="2" class="decision">'+getShowName(playerStatus[i].decision)+'</td>\n' +
             '            </tr>\n' +
             '            <tr>\n' +
             '                <td width="15%">生命：'+playerStatus[i].healthPoint+'</td>\n' +
@@ -128,6 +132,10 @@ function updateGameInfo(playerStatus) {
 }
 
  function printPlayerInfo(playerStatus) {
+     document.getElementById('panel-hp-value').innerText = "3";
+     document.getElementById('panel-mp-value').innerText = "0";
+     document.getElementById('panel-dcs-value').innerText = "";
+     document.getElementsByTagName('tbody')[0].innerHTML = "";
      for(var i = 0;i<playerStatus.length;i++){
          document.getElementsByTagName('tbody')[0].innerHTML =
              document.getElementsByTagName('tbody')[0].innerHTML +

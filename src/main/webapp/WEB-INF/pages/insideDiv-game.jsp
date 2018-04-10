@@ -78,7 +78,7 @@
             url: "<%=request.getContextPath()%>/triGame/makeDcs",
             data : {data:dcsJson},
             success: function(){
-                document.getElementById('panel-dcs-value').innerText = dcsId;
+                document.getElementById('panel-dcs-value').innerText = getShowName(dcsId);
             },
             error: function(){
             }
@@ -89,6 +89,22 @@
         document.getElementById('backwardArea').innerText="";
         $('#allSeats').attr("class","show");
         $('#game').attr("class","hide");
+    }
+
+    function getShowName(sysName){
+        var resName = "";
+        if(sysName=="recoverMana"){resName = "恢复法力";}
+        else if(sysName=="attack1"){resName = "攻击(1级)";}
+        else if(sysName=="attack2"){resName = "攻击(2级)";}
+        else if(sysName=="attack3"){resName = "攻击(3级)";}
+        else if(sysName=="attack4"){resName = "攻击(4级)";}
+        else if(sysName=="defence1"){resName = "防御(1级)";}
+        else if(sysName=="defence2"){resName = "防御(2级)";}
+        else if(sysName=="defence3"){resName = "防御(3级)";}
+        else if(sysName=="manaAttack"){resName = "法力燃烧";}
+        else if(sysName=="manaGrab"){resName = "法力夺取";}
+        else if(sysName=="beInvincible"){resName = "法力护盾";}
+        return resName;
     }
 </script>
 </body>

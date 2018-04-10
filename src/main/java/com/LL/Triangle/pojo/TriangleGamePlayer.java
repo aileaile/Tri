@@ -95,7 +95,8 @@ public class TriangleGamePlayer extends User{
      */
     public Object[] getInterplayInfo(){
         Object[] res = {atkNum,atkPow,manaAtk,manaGrab,recoverMana?recoverManaNum:0};
-        return res;
+        Object[] dead = {0,0,false,false,0};
+        return healthPoint>0?res:dead;
     }
 
     public void recoverMana(){
@@ -115,6 +116,7 @@ public class TriangleGamePlayer extends User{
      * @return true玩家存活 false玩家死亡
      */
     public boolean defend(int atkNum,int atkPow,boolean manaAtk){
+        if(mana<0){return false;}
         if(invincible){return true;}
         if(manaAtk&&!manaDefence){mana=0;}
         if(atkNum==4){

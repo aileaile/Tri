@@ -14,9 +14,10 @@ subbut  Created by IntelliJ IDEA.
 <body>
     你好，旅行者！
     <br><br><br>
-        <form id="buttons" action="main"  method="post" class="">
+        <form id="buttons" action="main"  method="post" class="" onSubmit="return sub()">
             <ui line-height="100px">
                 请输入用户名：<input name="userName" value="" id="userName" size="7%" />
+                <span id="errMsg" style="color:indianred;font-size:11px;font-family:微软雅黑">${errMsg}</span>
             </ui>
             <br><br>
             <ui>
@@ -24,7 +25,7 @@ subbut  Created by IntelliJ IDEA.
             </ui>
             <br><br>
             <div>
-                <button id="subbut" type="submit" class="btn btn-default" onclick="sub()">确定！</button>
+                <button id="subbut" type="submit" class="btn btn-default">确定！</button>
             </div>
         </form>
     <br/>
@@ -33,6 +34,13 @@ subbut  Created by IntelliJ IDEA.
 
 <script type="text/javascript">
     function sub(){
+        debugger
+        var loginCheck = document.getElementById('userName');
+        if(loginCheck.value.replace(/\s+/g, "").length ==0){
+            document.getElementById('errMsg').innerText="用户名不能为空。";
+            return false;
+        }
+        return true;
     }
 </script>
 </html>

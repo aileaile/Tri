@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -91,11 +92,13 @@ public class TriangleGameThread implements Runnable {
                 }
             }
             logger.debug("Start attack/defend.RoomNum-{}",roomNum);
-            for(String aliveSession :aliveList) {
+            Iterator<String> it = aliveList.iterator();
+            while(it.hasNext()){
+                String aliveSession = it.next();
                 player = playerMap.get(aliveSession);
                 boolean ifPAlive = player.defend((int) roundInfo[0], (int) roundInfo[1], (boolean) roundInfo[2]);
                 if (!ifPAlive) {
-                    aliveList.remove(aliveSession);
+                    it.remove();
                 }
             }
             logger.debug("One round is over,RoomNum-{}",roomNum);

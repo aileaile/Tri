@@ -106,13 +106,18 @@ public class UserServiceImpl implements IUserService {
         }
     }
     /**
-     * 检查用户是否已经登陆
-     * @param sessionId
-     * @return
+     * 检查用户名是否重复
+     * @param userName
+     * @return true:无重复 false：重复
      */
     @Override
-    public boolean checkLogin(String sessionId) {
-        return false;
+    public boolean checkLogin(String userName) {
+        for(User user:userMap.values()){
+            if(user.getUserName().equals(userName)){
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -123,4 +128,5 @@ public class UserServiceImpl implements IUserService {
     public void updateHeartBeat(String sessionId) {
         userMap.get(sessionId).setLastCheckTime(System.currentTimeMillis());
     }
+
 }

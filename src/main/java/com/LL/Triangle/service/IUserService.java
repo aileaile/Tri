@@ -25,11 +25,11 @@ public interface IUserService {
     void cleanOfflineUser();
 
     /**
-     * 检查登录
-     * @param sessionId
-     * @return
+     * 检查用户名是否重复
+     * @param userName
+     * @return true:无重复 false：重复
      */
-    boolean checkLogin(String sessionId);
+    boolean checkLogin(String userName);
 
     /**
      * 更新心跳

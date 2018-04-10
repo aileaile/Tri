@@ -18,7 +18,7 @@
 <script>
     var un = '${userName}';
     if (un=='') {
-        location.href = "index.action";
+        location.href = "offLine";
     }
 
 </script>
