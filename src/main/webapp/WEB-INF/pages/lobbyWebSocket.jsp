@@ -31,11 +31,11 @@
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
         //线上
-        websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/lobbyWS");
+        //websocket = new WebSocket("ws://120.55.53.110:8080/Triangle/lobbyWS");
         //局域网
        //websocket = new WebSocket("ws://192.168.1.8:8077/Triangle/lobbyWS");
         //本机
-       //websocket = new WebSocket("ws://localhost:8077/Triangle/lobbyWS");
+       websocket = new WebSocket("ws://localhost:8077/Triangle/lobbyWS");
  }
  else {
      alert('当前浏览器版本太低，无法加载页面，请使用新版本或其他浏览器。')
@@ -102,8 +102,14 @@
          updateGameInfo(json.gameStatus);
      }else if(json.msgType=="gameOver"){
          showBackward();
+     }else if(json.msgType=="playerMakeDcs"){
+         playerMakeDcs(json.playerName);
      }
  }
+function playerMakeDcs(playerName) {
+    document.getElementById('dcsStatus'+playerName).innerText = "✔";
+} 
+ 
 function showBackward() {
     document.getElementById('backwardArea').innerText="游戏结束，单击此处返回房间。";
 }
@@ -120,7 +126,7 @@ function updateGameInfo(playerStatus) {
             document.getElementsByTagName('tbody')[0].innerHTML +
             '<tr>\n' +
             '            <tr>\n' +
-            '                <td colspan="2" width="30%">'+playerStatus[i].userName+'</td>\n' +
+            '                <td colspan="2" width="30%">'+playerStatus[i].userName+'<span id="dcsStatus'+playerStatus[i].userName+'"></span></td>\n' +
             '                <td rowspan="2" class="decision">'+getShowName(playerStatus[i].decision)+'</td>\n' +
             '            </tr>\n' +
             '            <tr>\n' +
@@ -141,8 +147,8 @@ function updateGameInfo(playerStatus) {
              document.getElementsByTagName('tbody')[0].innerHTML +
              '<tr>\n' +
              '            <tr>\n' +
-             '                <td colspan="2" width="30%">'+playerStatus[i].userName+'</td>\n' +
-             '                <td rowspan="2" class="decision" id="playerName"+playerStatus[i].userName>'+playerStatus[i].decision+'</td>\n' +
+             '                <td colspan="2" width="30%">'+playerStatus[i].userName+'<span id="dcsStatus'+playerStatus[i].userName+'"></span></td>\n' +
+             '                <td rowspan="2" class="decision">'+getShowName(playerStatus[i].decision)+'</td>\n' +
              '            </tr>\n' +
              '            <tr>\n' +
              '                <td width="15%">生命：'+playerStatus[i].healthPoint+'</td>\n' +

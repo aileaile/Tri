@@ -10,6 +10,9 @@
 <head>
     <title></title>
     <style>
+        body{
+            font-family:"微软雅黑" !important;
+        }
         .hide{
             display: none !important;
         }

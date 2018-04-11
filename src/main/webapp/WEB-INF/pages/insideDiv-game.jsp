@@ -50,7 +50,7 @@
         </div>
     <br/>
     <div>
-        <p id="backwardArea" onclick="hideGamePanelAndShowSeats()"></p>
+        <p id="backwardArea" style="color:darkgreen;font-family:'微软雅黑'" onclick="hideGamePanelAndShowSeats()"></p>
     </div>
 </div>
 <script>

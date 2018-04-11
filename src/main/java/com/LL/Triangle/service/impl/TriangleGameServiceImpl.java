@@ -73,6 +73,8 @@ public class TriangleGameServiceImpl implements ITriangleGameService {
         TriangleGamePlayer player = room.getPlayerMap().get(httpSessionId);
         player.makeDecision(dcs);
         room.getUndecidedList().remove(httpSessionId);
+        //通知其他人已提交
+        LobbyWebSocket.sendRoom(roomNum,"{\"msgType\":\"playerMakeDcs\",\"playerName\":\""+player.getUserName()+"\"}");
         logger.debug("makeDcs[over]");
     }
 

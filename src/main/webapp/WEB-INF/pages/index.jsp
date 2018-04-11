@@ -8,6 +8,11 @@ subbut  Created by IntelliJ IDEA.
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <style>
+        body{
+            font-family:"微软雅黑" !important;
+        }
+    </style>
     <title>登陆LL的游戏室</title>
     <%@include file="base.jsp"%>
 </head>
@@ -34,7 +39,6 @@ subbut  Created by IntelliJ IDEA.
 
 <script type="text/javascript">
     function sub(){
-        debugger
         var loginCheck = document.getElementById('userName');
         if(loginCheck.value.replace(/\s+/g, "").length ==0){
             document.getElementById('errMsg').innerText="用户名不能为空。";
