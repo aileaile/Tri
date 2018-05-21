@@ -2,6 +2,7 @@ package com.LL.Triangle.webSocket;
 
 import com.LL.Triangle.pojo.Lobby;
 import com.LL.Triangle.pojo.User;
+import com.LL.Triangle.pojo.po.UserPo;
 import com.LL.Triangle.service.IUserService;
 import com.LL.Triangle.utils.ContextUtil;
 import com.LL.Triangle.webSocket.configure.GetHttpSessionConfigurator;
@@ -40,7 +41,7 @@ public class LobbyWebSocket {
     public void onOpen(Session session,EndpointConfig config){
         HttpSession httpSession= (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         this.httpSessionId=httpSession.getId();
-        sessionMap.put(httpSessionId,session);     //加入map中
+        sessionMap.put(((UserPo)httpSession.getAttribute("session_user")).getId().toString(),session);     //加入map中
         //addOnlineCount();           //在线数加1
         //broadcastMsg("一个用户加入了服务器，当前在线人数为"+ getOnlineCount()+"。");
     }
@@ -146,7 +147,7 @@ public class LobbyWebSocket {
         Collection<User> target = Lobby.roomMap.get(roomNum).getMap().values();
         for(User user : target) {
             try {
-                Session session = sessionMap.get(user.getjSessionId());
+                Session session = sessionMap.get(user.getUserId());
                 if(session !=null) {
                     session.getBasicRemote().sendText(message);
                 }
@@ -165,7 +166,7 @@ public class LobbyWebSocket {
         String msgJson = "{\"msgType\":\"broadcast\",\"msg\":\""+message+"\"}";
         for(User user : target) {
             try {
-                Session session = sessionMap.get(user.getjSessionId());
+                Session session = sessionMap.get(user.getUserId());
                 if(session !=null) {
                     session.getBasicRemote().sendText(msgJson);
                 }

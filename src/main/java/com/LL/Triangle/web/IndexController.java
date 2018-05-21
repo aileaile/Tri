@@ -1,6 +1,7 @@
 package com.LL.Triangle.web;
 
 import com.LL.Triangle.pojo.User;
+import com.LL.Triangle.pojo.po.UserPo;
 import com.LL.Triangle.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ public class IndexController {
     @Autowired
     private IUserService iUserService;
 
+
     private Logger logger = LoggerFactory.getLogger(IndexController.class);
     //转向欢迎页面
     @RequestMapping("/index")
@@ -38,28 +40,17 @@ public class IndexController {
 
 
     @RequestMapping("/main")
-    public String main(String userName,String roomNum,HttpServletRequest request) throws UnsupportedEncodingException {
-        String harmoniousName;
-        //1.规范用户名称，储存用户登录信息
-        if("，。？".equals(userName)){
-            harmoniousName = "LL";
-        }else if(userName!=null&&!"".equals(userName)) {
-            //和谐
-            harmoniousName = userName.trim().replace(" ", "").replace("ll", "I am ")
-                    .replace("LL", "I am ").replace("刘良王", "赵赫王");
-        }else{
-            //request.setAttribute("errMsg","请重新登录。");
+    public String main(String roomNum,HttpServletRequest request) throws UnsupportedEncodingException {
+        System.out.println("1");
+        UserPo session_user = (UserPo)request.getSession().getAttribute("session_user");
+        if(session_user==null){
+            logger.info("User did not sign in.");
             return "index";
         }
-        logger.info("{} log in,roomNum is {}.",userName,roomNum);
-        request.getSession().setAttribute("userName",harmoniousName);
-        //检查用户名是否重复
-        if(!iUserService.checkLogin(harmoniousName)){
-            request.setAttribute("errMsg","这个名字已经被占用了，再选一个吧。");
-            return "index";
-        }
+        logger.info("User joins the lobby.");
         //储存在线用户信息
-        User user = new User(request.getSession().getId(), harmoniousName);
+        User user = new User(String.valueOf(session_user.getId()), session_user.getName());
+        //这里把User存缓存
         iUserService.userSignIn(user);
         //2.处理房间号
         request.getSession().setAttribute("roomNum",roomNum);
@@ -69,7 +60,7 @@ public class IndexController {
     @RequestMapping("/game")
     public String game(Model model, String userName, HttpServletRequest request,HttpSession session) throws UnsupportedEncodingException {
         //model.addAttribute("userName",userName);
-        //equest.getSession(true);
+        //request.getSession(true);
         session.setAttribute("userName",session.getAttribute("userName"));
         return "insideDiv-game";
     }

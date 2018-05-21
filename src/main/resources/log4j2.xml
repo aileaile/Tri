@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration status="error">
+<configuration scan="false">
     <!-- 先定义所有的appender -->
     <appenders>
         <!--  这个输出控制台的配置 -->
-        <Console name="Console" target="SYSTEM_OUT">
+        <Console name="appConsole" target="SYSTEM_OUT">
             <!-- 控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
             <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
             <!-- 这个都知道是输出日志的格式 -->
@@ -14,18 +14,27 @@
             <PatternLayout pattern="%%-d{yyyy-MM-dd HH:mm:ss.SSS}  %p %c[%L] - %m (%t)%n"/>
         </File>
         <!--  这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
-        <RollingFile name="RollingFile" fileName="../TriangleLogs/Triangle.log"
+        <RollingFile name="appRollingFile" fileName="../TriangleLogs/Triangle.log"
                      filePattern="log/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss.SSS}  %p %c[%L] - %m (%t)%n"/>
             <SizeBasedTriggeringPolicy size="50MB"/>
         </RollingFile>
+        <RollingFile name="zaxxer" fileName="../TriangleLogs/mysql.log"
+                     filePattern="log/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+        <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss.SSS}  %p %c[%L] - %m (%t)%n"/>
+        <SizeBasedTriggeringPolicy size="50MB"/>
+        </RollingFile>
     </appenders>
+
     <!--   然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
     <loggers>
         <!--  建立一个默认的root的logger -->
         <root level="DEBUG">
-            <appender-ref ref="RollingFile"/>
-            <appender-ref ref="Console"/>
+            <appender-ref ref="appRollingFile"/>
+            <appender-ref ref="appConsole"/>
         </root>
+        <logger name="com.zaxxer" level="INFO" additivity="false">
+            <appender-ref ref="zaxxer" />
+        </logger>
     </loggers>
 </configuration>

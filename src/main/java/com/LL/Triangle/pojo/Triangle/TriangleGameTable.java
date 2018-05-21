@@ -1,4 +1,4 @@
-package com.LL.Triangle.pojo;
+package com.LL.Triangle.pojo.Triangle;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

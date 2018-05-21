@@ -1,5 +1,6 @@
 package com.LL.Triangle.pojo;
 
+import com.LL.Triangle.pojo.Triangle.TriangleRoom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

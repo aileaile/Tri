@@ -1,5 +1,7 @@
 package com.LL.Triangle.pojo;
 
+import com.LL.Triangle.pojo.Triangle.TriangleGamePlayer;
+
 import java.util.List;
 import java.util.Map;
 

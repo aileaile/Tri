@@ -73,39 +73,52 @@
  //接收到消息的回调方法
  websocket.onmessage = function (MessageEvent ) {
      var json = $.parseJSON(MessageEvent.data);
-     if(json.msgType=="seatStatus"){
-         if(json.roomNum==roomNum) {
-             var users = json.detail;
-             var pre = 't' + roomNum + 's';
-             for (var i = 1; i <= 8; i++) {
-                 document.getElementById(pre + i).value = "位置" + i;
-                 readys[i -1 ].value="";
-             }
-             for (var i = 0; i < users.length; i++) {
-                 document.getElementById(pre + users[i].position).value = users[i].userName;
-                 if(users[i].ready){
-                     readys[users[i].position-1].value = "已准备"
-                 }else{
-
-                 }
-             }
-         }
-     }else if(json.msgType=="broadcast"){
-         setMessageInnerHTML(json.msg);
-     }else if(json.msgType=="gameStart"){
-         showGamePanelAndHideSeats();
-     }else if(json.msgType=="playerStatus"){
-         StartCounting();
-         printPlayerInfo(json.playerStatus);
-     }else if(json.msgType=="gameStatus"){
-         StartCounting();
-         updateGameInfo(json.gameStatus);
-     }else if(json.msgType=="gameOver"){
-         showBackward();
-     }else if(json.msgType=="playerMakeDcs"){
-         playerMakeDcs(json.playerName);
+     switch(json.msgType){
+         case "seatStatus":
+             debugger;
+             drawSeats(json);
+             break;
+         case "broadcast":
+             setMessageInnerHTML(json.msg);
+             break;
+         case "gameStart":
+             showGamePanelAndHideSeats();
+             break;
+         case "playerStatus":
+             StartCounting();
+             printPlayerInfo(json.playerStatus);
+             break;
+         case "gameStatus":
+             StartCounting();
+             updateGameInfo(json.gameStatus);
+             break;
+         case "gameOver":
+             showBackward();
+             break;
+         case "playerMakeDcs":
+             playerMakeDcs(json.playerName);
+             break;
      }
  }
+function drawSeats(json){
+    if(json.roomNum==roomNum) {
+        var users = json.detail;
+        var pre = 't' + roomNum + 's';
+        for (var i = 1; i <= 8; i++) {
+            document.getElementById(pre + i).value = "位置" + i;
+            readys[i -1 ].value="";
+        }
+        for (var i = 0; i < users.length; i++) {
+            document.getElementById(pre + users[i].position).value = users[i].userName;
+            if(users[i].ready){
+                readys[users[i].position-1].value = "已准备"
+            }else{
+
+            }
+        }
+    }
+}
+
 function playerMakeDcs(playerName) {
     document.getElementById('dcsStatus'+playerName).innerText = "✔";
 } 

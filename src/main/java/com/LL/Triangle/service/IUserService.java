@@ -1,6 +1,7 @@
 package com.LL.Triangle.service;
 
 import com.LL.Triangle.pojo.User;
+import com.LL.Triangle.pojo.po.UserPo;
 import org.springframework.scheduling.annotation.Scheduled;
 
 public interface IUserService {
@@ -36,4 +37,16 @@ public interface IUserService {
      * @param sessionId
      */
     void updateHeartBeat(String sessionId);
+
+    int deleteById(Integer id);
+
+    int insert(UserPo record);
+
+    UserPo selectById(Integer id);
+
+    UserPo selectByName(String name);
+
+    int updateById(UserPo record);
+
+    UserPo findByNameAndPassword(String name,String password);
 }

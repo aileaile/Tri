@@ -1,17 +1,19 @@
 package com.LL.Triangle.pojo;
 
-public class User {
+import com.LL.Triangle.pojo.po.UserPo;
+
+public class User extends UserPo{
 
     public User(){}
-    public User(String jSessionId){
-        this.jSessionId = jSessionId;
+    public User(String userId){
+        this.userId = userId;
     }
-    public User(String jSessionId,String userName){
-        this.jSessionId = jSessionId;
+    public User(String userId,String userName){
+        this.userId = userId;
         this.userName = userName;
     }
 
-    private String jSessionId;
+    private String userId;
     private String userName;
     private boolean isReady = false;
     private long lastCheckTime = System.currentTimeMillis();
@@ -32,12 +34,12 @@ public class User {
         isReady = ready;
     }
 
-    public String getjSessionId() {
-        return jSessionId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setjSessionId(String jSessionId) {
-        this.jSessionId = jSessionId;
+    public void setUserId(String jSessionId) {
+        this.userId = jSessionId;
     }
 
     public String getUserName() {
@@ -55,11 +57,11 @@ public class User {
 
         User user = (User) o;
 
-        return jSessionId != null ? jSessionId.equals(user.jSessionId) : user.jSessionId == null;
+        return userId != null ? userId.equals(user.userId) : user.userId == null;
     }
 
     @Override
     public int hashCode() {
-        return jSessionId != null ? jSessionId.hashCode() : 0;
+        return userId != null ? userId.hashCode() : 0;
     }
 }

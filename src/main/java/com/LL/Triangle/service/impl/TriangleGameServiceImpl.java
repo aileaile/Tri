@@ -1,6 +1,8 @@
 package com.LL.Triangle.service.impl;
 
 import com.LL.Triangle.pojo.*;
+import com.LL.Triangle.pojo.Triangle.TriangleGamePlayer;
+import com.LL.Triangle.pojo.Triangle.TriangleGamePlayerForJson;
 import com.LL.Triangle.service.ITriangleGameService;
 import com.LL.Triangle.thread.TriangleGameThread;
 import com.LL.Triangle.utils.JsonUtil;
@@ -9,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class TriangleGameServiceImpl implements ITriangleGameService {
         Map<String, TriangleGamePlayer> playerMap = gameRoom.gameStartAndGetMap();
         List<String> aliveList = new LinkedList<>();
         for(TriangleGamePlayer player:playerMap.values()){
-            aliveList.add(player.getjSessionId());
+            aliveList.add(player.getUserId());
         }
         //3--
         logger.info("game data init over.Now init a thread.");

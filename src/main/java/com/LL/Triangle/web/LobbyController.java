@@ -3,6 +3,7 @@ package com.LL.Triangle.web;
 import com.LL.Triangle.pojo.IRoom;
 import com.LL.Triangle.pojo.Lobby;
 import com.LL.Triangle.pojo.User;
+import com.LL.Triangle.pojo.po.UserPo;
 import com.LL.Triangle.service.ITriangleGameService;
 import com.LL.Triangle.service.IUserService;
 import com.LL.Triangle.utils.JsonUtil;
@@ -42,7 +43,7 @@ public class LobbyController {
         if (LobbyUtil.checkRoomNum(roomNum)){
             Lobby lobby = Lobby.getInstance();
             IRoom room = lobby.getRoom(roomNum);
-            User user = room.findUserBySessionId(session.getId());
+            User user = room.findUserBySessionId(((UserPo)session.getAttribute("session_user")).getId().toString());
             boolean flg = room.sit(seat, user);
             if (flg) {
                 LobbyWebSocket.sendRoom(roomNum,room.getAll());
@@ -58,7 +59,7 @@ public class LobbyController {
         User user = null;
         try {
             Integer roomNumInt = Integer.valueOf(roomNum);
-            user = iUserService.findUser(session.getId());
+            user = iUserService.findUser(((UserPo)session.getAttribute("session_user")).getId().toString());
             if (user != null) {
                 IRoom room = Lobby.getInstance().getRoom(roomNumInt);
                 boolean firstSit = room.firstSit(user);
@@ -79,7 +80,7 @@ public class LobbyController {
     @RequestMapping("/heartBeat")
     @ResponseBody
     public void heartBeat(HttpSession httpSession){
-        iUserService.updateHeartBeat(httpSession.getId());
+        iUserService.updateHeartBeat(((UserPo)httpSession.getAttribute("session_user")).getId().toString());
     }
 
     @RequestMapping("/ready")

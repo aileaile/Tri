@@ -5,6 +5,7 @@
   Time: 20:51
   To change this template use File | Settings | File Templates.
 --%>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -52,7 +53,7 @@
 </body>
 <script>
 
-    //防止页面后退(safari无效)
+    //防止页面后退
     history.pushState(null, null, document.URL);
     window.addEventListener('popstate', function () {
         history.pushState(null, null, document.URL);

@@ -1,11 +1,14 @@
 package com.LL.Triangle.service.impl;
 
+import com.LL.Triangle.dao.UserMapper;
 import com.LL.Triangle.pojo.Lobby;
 import com.LL.Triangle.pojo.User;
+import com.LL.Triangle.pojo.po.UserPo;
 import com.LL.Triangle.service.IUserService;
 import com.LL.Triangle.webSocket.LobbyWebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +19,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service("iUserService")
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService{
+
     private Map<String,User> userMap = new ConcurrentHashMap<>();
     private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 查找用户
@@ -36,7 +42,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void userSignIn(User user) {
         logger.debug("userSignIn[start]");
-        userMap.put(user.getjSessionId(),user);
+        userMap.put(user.getUserId(),user);
         logger.debug("userSignIn[end]");
     }
 
@@ -89,7 +95,7 @@ public class UserServiceImpl implements IUserService {
                         }
                     }
                     //2.删除webSocket中的session
-                    String httpSessionId = tempUser.getjSessionId();
+                    String httpSessionId = tempUser.getUserId();
                     LobbyWebSocket.sessionMap.remove(httpSessionId);
                     //3.删除在线用户userMap中的user
                     userMap.remove(httpSessionId);
@@ -127,6 +133,43 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void updateHeartBeat(String sessionId) {
         userMap.get(sessionId).setLastCheckTime(System.currentTimeMillis());
+    }
+
+    @Override
+    public int deleteById(Integer id) {
+        logger.info("deleteById,id:{}",id);
+        return  userMapper.deleteById(id);
+    }
+
+    @Override
+    public int insert(UserPo record) {
+        logger.info("insert,UserPo:{}",record.toString());
+        return userMapper.insert(record);
+    }
+
+    @Override
+    public UserPo selectById(Integer id) {
+        logger.info("selectById,id:{}",id);
+        return userMapper.selectById(id);
+    }
+
+    @Override
+    public UserPo selectByName(String name) {
+        logger.info("selectByName,name:{}",name);
+        return userMapper.selectByName(name);
+    }
+
+    @Override
+    public int updateById(UserPo record) {
+        logger.info("updateById,UserPo:{}",record.toString());
+        return userMapper.updateById(record);
+    }
+
+    @Override
+    public UserPo findByNameAndPassword(String name, String password) {
+        logger.info("findByNameAndPassword,UserName:{}",name.toString());
+        UserPo res = userMapper.findByNameAndPassword(name, password);
+        return res;
     }
 
 }

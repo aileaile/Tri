@@ -1,5 +1,8 @@
-package com.LL.Triangle.pojo;
+package com.LL.Triangle.pojo.Triangle;
 
+import com.LL.Triangle.pojo.IRoom;
+import com.LL.Triangle.pojo.User;
+import com.LL.Triangle.pojo.UserForJson;
 import com.LL.Triangle.utils.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +67,7 @@ public class TriangleRoom implements IRoom {
         synchronized(map){
             if(map.get(pos)!=null){
                 logger.debug("sit[end] FAIL:the target position is occupied!The user on the seat is {},jSessionId is {}"
-                                                        ,map.get(pos).getUserName(),map.get(pos).getjSessionId());
+                                                        ,map.get(pos).getUserName(),map.get(pos).getUserId());
                 return false;
             }
             leaveSeat(user);
@@ -148,7 +151,7 @@ public class TriangleRoom implements IRoom {
     @Override
     public User findUserBySessionId(String sessionId){
         for(User user : map.values()){
-            if(user.getjSessionId().equals(sessionId)){
+            if(user.getUserId().equals(sessionId)){
                 return user;
             }
         }
@@ -188,12 +191,12 @@ public class TriangleRoom implements IRoom {
             logger.info("game starting:roomNum-{},now setting the playerMap.Players number is {}",roomNum,map.size());
             for(User u :map.values()){
                 tPlayer = new TriangleGamePlayer();
-                tPlayer.setjSessionId(u.getjSessionId());
+                tPlayer.setUserId(u.getUserId());
                 tPlayer.setUserName(u.getUserName());
                 tPlayer.reset();
-                playerMap.put(u.getjSessionId(),tPlayer);
-                undecidedList.add(u.getjSessionId());
-                logger.info("player name-{},sessionId-{},done.",u.getUserName(),u.getjSessionId());
+                playerMap.put(u.getUserId(),tPlayer);
+                undecidedList.add(u.getUserId());
+                logger.info("player name-{},sessionId-{},done.",u.getUserName(),u.getUserId());
             }
         //}
         logger.debug("gameStartAndGetMap[end]");

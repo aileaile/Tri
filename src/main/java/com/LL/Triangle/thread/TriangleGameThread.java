@@ -1,13 +1,12 @@
 package com.LL.Triangle.thread;
 
-import com.LL.Triangle.pojo.TriangleGamePlayer;
+import com.LL.Triangle.pojo.Triangle.TriangleGamePlayer;
 import com.LL.Triangle.service.ITriangleGameService;
 import com.LL.Triangle.utils.ContextUtil;
 import com.LL.Triangle.utils.DictionaryUtil;
 import com.LL.Triangle.webSocket.LobbyWebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Iterator;
 import java.util.List;

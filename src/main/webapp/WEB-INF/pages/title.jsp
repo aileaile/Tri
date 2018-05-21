@@ -12,11 +12,11 @@
 </head>
 <body>
 
-欢迎，${userName}<br/>
+欢迎，${session_user.name}<br/>
 <hr/>
 </body>
 <script>
-    var un = '${userName}';
+    var un = '${session_user.name}';
     if (un=='') {
         location.href = "offLine";
     }

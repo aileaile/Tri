@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+			   xmlns:context="http://www.springframework.org/schema/context"
+			   xmlns:p="http://www.springframework.org/schema/p"
+			   xmlns:aop="http://www.springframework.org/schema/aop"
+			   xmlns:tx="http://www.springframework.org/schema/tx"
+			   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<!-- 构造SqlSessionFactory-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!--别名:用户在mapper文件中的parameterType省略包名<property name="typeAliasesPackage" value="cn.wx.rent.pojo"/>-->
+		<property name="mapperLocations" value="classpath:mybatis/mappers/*.xml"/>
+	</bean>
+
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="shutdown">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="jdbcUrl" value="jdbc:mysql://122.152.201.27:3306/triangle"/>
+		<property name="username" value="ll"/>
+		<property name="password" value="root"/>
+	</bean>
+
+
+	<!-- 定义事务管理器 -->
+	<bean id="transactionManager"
+		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 定义事务策略 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!--定义查询方法都是只读的 -->
+			<tx:method name="query*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+
+			<!-- 主库执行操作，事务传播行为定义为默认行为 -->
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="upd*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="ins*" propagation="REQUIRED" />
+			<tx:method name="rem*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="cre*" propagation="REQUIRED" />
+			<tx:method name="mer*" propagation="REQUIRED" />
+			<!--其他方法使用默认事务策略 -->
+			<tx:method name="*" read-only="true"/>
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config expose-proxy="true">
+		<!-- 定义切面，所有的service的所有方法 -->
+		<aop:pointcut id="txPointcut" expression="execution(* com.LL.Triangle.service..*.*(..))" />
+		<!-- 应用事务策略到Service切面 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+	</aop:config>
+</beans>

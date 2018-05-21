@@ -1,8 +1,9 @@
-package com.LL.Triangle.pojo;
+package com.LL.Triangle.pojo.Triangle;
 
+import com.LL.Triangle.pojo.User;
 import com.LL.Triangle.utils.DictionaryUtil;
 
-public class TriangleGamePlayer extends User{
+public class TriangleGamePlayer extends User {
     private Integer tablePos;
     private boolean isAlive;
 

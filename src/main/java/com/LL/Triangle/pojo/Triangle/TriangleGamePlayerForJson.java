@@ -1,4 +1,4 @@
-package com.LL.Triangle.pojo;
+package com.LL.Triangle.pojo.Triangle;
 
 public class TriangleGamePlayerForJson {
     private String userName;
